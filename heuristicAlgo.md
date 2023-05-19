@@ -14,9 +14,9 @@ function preload(){
 
 
 function setup() {
-  createCanvas(windowWidth,windowHeight+1000);
+  createCanvas(windowWidth,windowHeight);
   map = createSprite(windowWidth/2,windowHeight/2+300);
-  map.addImage(mapIMG);
+  // map.addImage(mapIMG);
 }
 
 function draw() {
