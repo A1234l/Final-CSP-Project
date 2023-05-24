@@ -1,6 +1,7 @@
 <html>
 <head>
   <h1>Welcome to the San Diego Map Game!</h1>
+  <p>Press Reset twice to fully reset the map</p>
   <style>
     #coding_body{
       font-family: Arial, sans-serif;
@@ -61,7 +62,7 @@ function draw() {
 }
 
 function mouseClicked() {
-  if (mouseButton === LEFT && mouseX < width && mouseY < height) {
+  if (mouseButton === LEFT) {
     if (lastMousePos.length === 0) {
       lastMousePos = [mouseX, mouseY];
     } else if (currentMousePos.length === 0) {
