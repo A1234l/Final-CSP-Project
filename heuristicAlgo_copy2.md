@@ -1,20 +1,50 @@
-<h1>Welcome to the San Diego Map Game!</h1>
+<html>
+<head>
+  <h1>Welcome to the San Diego Map Game!</h1>
+  <style>
+    #coding_body{
+      font-family: Arial, sans-serif;
+    }
+    #container_thingy{
+      text-align: center;
+    }
+  </style>
+</head>
+<body id="coding_body">
+  <div id="container_thingy">
+    <button id="calculateButton">Calculate Total Distance</button>
+    <button id="resetButton">Reset</button>
+    <p>Total Distance: <span id="totalDistance">-</span></p>
+  </div>
+</body>
 
 <script>
 let lastMousePos = [];
 let currentMousePos = [];
 let lines = [];
 let calculateButton;
+let resetButton;
+let totalDistanceElement;
+let backgroundImage;
+
+function preload() {
+  backgroundImage = loadImage('SDmap.png');
+}
 
 function setup() {
-  createCanvas(400, 400);
-  calculateButton = createButton('Calculate Total Distance');
-  calculateButton.position(10, 10);
+  let canvas = createCanvas(1072,829);
+
+  calculateButton = select('#calculateButton');
   calculateButton.mousePressed(calculateTotalDistance);
+
+  resetButton = select('#resetButton');
+  resetButton.mousePressed(resetLines);
+
+  totalDistanceElement = select('#totalDistance');
 }
 
 function draw() {
-  background(220);
+  background(backgroundImage);
 
   for (let i = 0; i < lines.length; i++) {
     let linePoints = lines[i];
@@ -22,13 +52,16 @@ function draw() {
     let y1 = linePoints[1];
     let x2 = linePoints[2];
     let y2 = linePoints[3];
-    stroke(0);
+
+    stroke(255, 0, 0);
+    strokeWeight(3);
+    
     line(x1, y1, x2, y2);
   }
 }
 
 function mouseClicked() {
-  if (mouseButton === LEFT) {
+  if (mouseButton === LEFT && mouseX < width && mouseY < height) {
     if (lastMousePos.length === 0) {
       lastMousePos = [mouseX, mouseY];
     } else if (currentMousePos.length === 0) {
@@ -48,7 +81,7 @@ function calculateTotalDistance() {
     let distance = calculateDistance(linePoints.slice(0, 2), linePoints.slice(2));
     totalDistance += distance;
   }
-  console.log(`Total Distance: ${totalDistance}`);
+  totalDistanceElement.html(totalDistance);
 }
 
 function calculateDistance(point1, point2) {
@@ -57,4 +90,9 @@ function calculateDistance(point1, point2) {
   return Math.sqrt(dx * dx + dy * dy);
 }
 
+function resetLines() {
+  lines = [];
+  totalDistanceElement.html("-");
+}
 </script>
+</html>
