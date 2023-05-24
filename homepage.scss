@@ -1,0 +1,105 @@
+.banner{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),url(homepg.jpg);
+    background-size: cover;
+    background-position: cover;
+  }
+  
+  .navbar{
+    width: 85%;
+    margin: auto;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .test{
+    width: 120px;
+    cursor: pointer;
+  }
+
+  .navbar ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+  }
+
+  .navbar ul li a{
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .navbar ul li::after{
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #009614;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    transition: 0.5s;
+  }
+
+  .navbar ul li:hover::after{
+    width: 100%;
+  }
+
+  .content{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: #fff;
+  }
+
+  .content h1{
+    font-size: 70px;
+    margin-top: 80px;
+  }
+
+  .content p{
+    font-weight: 100;
+    line-height: 25px ;
+    margin: 20px auto;
+  }
+
+  button{
+    width: 200px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 20px 10px;
+    background: transparent;
+    border-radius: 25px;
+    border: 2px solid #009614;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  span{
+    background: #009614;
+    height: 100%;
+    width: 0;
+    border-radius: 25px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: 0.5s;
+  }
+
+  button:hover{
+    border: none;
+  }
+
+
+  button:hover span{
+    width: 100%;
+  }
