@@ -1,52 +1,102 @@
-## Housing Overview
-> Sleeps 48 people. Verify your housing assignment at the reunion with Jeremiah and Melissa in case there are last minute changes.
- 
-> Preview [Homes](https://www.coramranch.com/vacation-home)
-- River House
-- Dogwood House
-- Alpine and Birch House
-- Cedar House
-- Rec Room
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Shortest Path Finder</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/astar.js/0.4.0/astar.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      canvas {
+        display: block;
+      }
+      .circle {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: white;
+      }
+      .selected {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Define variables
+      let locations = [];
+      let shortestPath = [];
+      let pathLength = 0;
 
-## Cooking
-> On site there are cooking facilities in each house. The Alpine ranch kitchens will be for large group meals and has appliances and utensils. There is an outdoor barbecue!
+      function setup() {
+        // Create canvas
+        createCanvas(400, 400);
 
+        // Draw circles to represent locations
+        for (let i = 0; i < 5; i++) {
+          let x = random(width);
+          let y = random(height);
+          locations.push(createVector(x, y));
+          let circle = document.createElement('div');
+          circle.classList.add('circle');
+          circle.style.left = x - 10 + 'px';
+          circle.style.top = y - 10 + 'px';
+          circle.addEventListener('click', function() {
+            if (this.classList.contains('selected')) {
+              this.classList.remove('selected');
+              locations[i].selected = false;
+            } else {
+              this.classList.add('selected');
+              locations[i].selected = true;
+            }
+          });
+          document.body.appendChild(circle);
+        }
+      }
 
-## Housing Assignment
+      function draw() {
+        // Clear canvas
+        background(0);
 
-| Family | Attending | Assignment | Count | Children | Arrive | Depart
-| --- | --- | --- | --- | --- | --- | --- |
-| Frank, Judith | Yes | Dogwood Primary | 2 | None | Mon | Sat |
-| | | | | |
-| Johnner, Lora | Yes | ? | 3 | Shay (14) | Mon | Sat |
-| Trent, Yuri | Yes | ? | 5 | Amelia (8), Cruz (6), Gavi (1) | Mon | Sat |
-| Corey | Yes | ? | 1 | - | Mon | Fri |
-| Tiernan | Yes | ? | 1 | - | Mon | Sat |
-| Claire | Yes | ? | 2 | - | Mon | Sat |
-| | | | | |
-|Lisa-Anne, Chris | Yes | ? | 2 | None | Mon | Sat |
-|Brianna, Forest | Yes | ? | 6 | Sayla (6), Tundra (4), Alora (2), Keelynn (1) | Mon | Sat |
-|Kira, Spencer | Yes | ? | 5 | Georgianna (6), James (5), Arabella (2), Hunter (NB) | Mon | Sat |
-|Ethan, Layne | Yes | ? | 6 | William (6), Lily (4), Adeline (2), Eleanor (1) | Mon | Sat |
-| Jarom | Yes | ? | 1 | None | Mon | Sat |
-| Braden | Yes | ? | 1 | None | Mon | Sat |
-| | | | | |
-| Mathew | Yes | ? | 1 | None | Unk | Unk |
-| | | | | |
-| Sherri, Drumond | Yes | ? | 2 | None | Mon | Sat |
-| Taylor | Yes | ? | 1 | None | Unk | Unk |
-| Jake | Yes | ? | 1 | None | Unk | Unk |
-| | | | | |
-| Angela, Tye | Yes | ? | 2 | None | Mon | Sat |
-| Bryce | Yes | ? | 1 | None | Unk | Unk |
-| Aspen, Brandon | Yes | ? | 2 | None | Unk | Unk |
-| Calem | Yes | ? | 1 | None | Unk | Unk |
-| | | | | |
-| Jared, Janice | Yes | ? | 4 | Kelle (15), Naya (13) | Mon | Sat |
-| | | | | |
-| John, Melanie | Yes | ? | 4 | Connor (17), Sophia (14) | Mon | Sat |
-| Isaiah | No | ? | 1 | None | Unk | Unk |
-| | | | | |
-| Jeremiah, Melissa | Yes | ? | 3 | Liam (11) | Mon | Sat |
-| Annalyce | Yes | ? | 1 | None | Unk | Unk |
-| Peyton | Yes | ? | 1 | None | Unk | Unk |
+        // Draw circles to represent locations
+        for (let i = 0; i < locations.length; i++) {
+          noStroke();
+          if (locations[i].selected) {
+            fill(255, 0, 0);
+          } else {
+            fill(255);
+          }
+          ellipse(locations[i].x, locations[i].y, 20, 20);
+        }
+
+        // Find shortest path between selected locations
+        let selectedLocations = locations.filter(location => location.selected);
+        if (selectedLocations.length > 1) {
+          let graph = new Graph(selectedLocations);
+          let start = selectedLocations[0];
+          let end = selectedLocations[selectedLocations.length - 1];
+          let result = astar.search(graph, start, end);
+          shortestPath = result.map(node => node.location);
+          pathLength = 0;
+          for (let i = 0; i < shortestPath.length - 1; i++) {
+            pathLength += dist(shortestPath[i].x, shortestPath[i].y, shortestPath[i+1].x, shortestPath[i+1].y);
+          }
+        }
+
+        // Draw shortest path
+        stroke(255, 0, 0);
+        strokeWeight(3);
+        noFill();
+        beginShape();
+        for (let i = 0; i < shortestPath.length; i++) {
+          vertex(shortestPath[i].x, shortestPath[i].y);
+        }
+        endShape();
+      }
+    </script>
+  </body>
+</html>
