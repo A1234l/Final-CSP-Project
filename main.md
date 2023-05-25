@@ -1,20 +1,53 @@
 <html>
 <head>
   <h1>Welcome to the San Diego Map Game!</h1>
-  <p>Press Reset twice to fully reset the map</p>
   <style>
     #coding_body{
       font-family: Arial, sans-serif;
     }
-    #container_thingy{
+    #playing{
       text-align: center;
     }
   </style>
 </head>
 <body id="coding_body">
-  <div id="container_thingy">
+  <div id="finish">
+      <p>Game Over, please fill out the form below</p>
+      <!-- Form does function create_user() -->
+      <form action="javascript:post_name()">
+          <p><label>
+              User ID:
+              <input type="text" name="username" id="username" placeholder="Enter username" required>
+          </label></p>
+          <p><label>
+          <!-- Score has automatic input -->
+              Score:
+              <span name="score" id="score">0</span>
+          </label></p>
+          <p><label>
+          <!-- Score has automatic input -->
+              Distance:
+              <span name="distance" id="distance">0</span>
+          </label></p>
+          <p><label>
+          <!-- Score has automatic input -->
+              Locations:
+              <span name="location" id="location">location</span>
+          </label></p>
+          <p>
+          <!-- Popup message on button click -->
+              <button onclick="alert('Your entry has been posted!')">Submit</button>
+          </p>
+      </form>
+  </div>
+  <div id="reset">
+    <p>Thank you for playing. If you would like to play another round, please click the button below.</p>
+    <button onclick="post_name()">Restart Game<button>
+  </div>
+  <div id="playing">
+    <p>Press <strong>Reset Lines</strong> twice to fully reset the map</p>
     <button id="calculateButton">Calculate Total Distance</button>
-    <button id="resetButton">Reset</button>
+    <button id="resetButton">Reset Lines</button>
     <p>Total Distance: <span id="totalDistance">-</span></p>
   </div>
 </body>
@@ -27,6 +60,13 @@ let calculateButton;
 let resetButton;
 let totalDistanceElement;
 let backgroundImage;
+var gameState;
+
+gameState = 1;
+
+const finish_screen = document.getElementById("finish");
+const reset_screen = document.getElementById("reset");
+const playing_screen = document.getElementById("playing");
 
 function preload() {
   backgroundImage = loadImage('SDmap.png');
