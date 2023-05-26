@@ -7,6 +7,7 @@
 <table id="recentGames" style="width: 100%;">
   <tr>
     <th>Username</th>
+    <th>Distance</th>
     <th>Score</th>
     <th>Date</th>
   </tr>
