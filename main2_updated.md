@@ -170,45 +170,54 @@
      const dx = vertex.x - lineEndX;
      const dy = vertex.y - lineEndY;
      const distance = Math.sqrt(dx * dx + dy * dy);
-     return distance <= 5; // check if the release point is within 5 pixels of the vertex
+     return distance <= 20; // check if the release point is within 20 pixels of the vertex
    });
    if (vertex) {
      // Connect the line to the snapped vertex
      selectedVertex.addAdjacent(vertex);
      vertex.addAdjacent(selectedVertex);
-     // Disable further line dragging
-     canvas.removeEventListener("mousemove", handleMouseMove);
-     canvas.removeEventListener("mouseup", handleMouseUp);
    }
    // Redraw the canvas with the updated graph and line connection (if applicable)
    drawShortestPath(graph, previous);
+   // Reset the line positions and remove the event listeners
+   lineStartX = null;
+   lineStartY = null;
+   lineEndX = null;
+   lineEndY = null;
+   selectedVertex = null;
+   canvas.removeEventListener("mousemove", handleMouseMove);
+   canvas.removeEventListener("mouseup", handleMouseUp);
  }
  // Create the graph
  const graph = new Graph();
- // Create vertices and add them to the graph
- const vertexA = new Vertex("A", 150, 100);
- const vertexB = new Vertex("B", 110, 200);
- const vertexC = new Vertex("C", 360, 500);
- const vertexD = new Vertex("D", 420, 420);
- graph.addVertex(vertexA);
- graph.addVertex(vertexB);
- graph.addVertex(vertexC);
- graph.addVertex(vertexD);
- // Connect the vertices
- vertexA.addAdjacent(vertexB);
- vertexA.addAdjacent(vertexC);
- vertexB.addAdjacent(vertexD);
- vertexC.addAdjacent(vertexD);
- // Initialize variables for line dragging
- let selectedVertex = null;
- let lineStartX = 0;
- let lineStartY = 0;
- let lineEndX = 0;
- let lineEndY = 0;
- // Calculate the shortest path
+ const v1 = new Vertex("A", 69, 69);
+ const v2 = new Vertex("B", 222, 122);
+ const v3 = new Vertex("C", 333, 125);
+ const v4 = new Vertex("D", 235, 464);
+ const v5 = new Vertex("E", 726, 123);
+ const v6 = new Vertex("F", 46, 75);
+ graph.addVertex(v1);
+ graph.addVertex(v2);
+ graph.addVertex(v3);
+ graph.addVertex(v4);
+ graph.addVertex(v5);
+ graph.addVertex(v6);
+ // Add some initial connections
+ v1.addAdjacent(v2);
+ v2.addAdjacent(v3);
+ v3.addAdjacent(v4);
+ v4.addAdjacent(v5);
+ v5.addAdjacent(v6);
+ // Run Dijkstra's algorithm
  const startId = "A";
  const previous = dijkstra(graph, startId);
- // Draw the shortest path on the canvas
+ // Set the initial line positions and selected vertex to null
+ let lineStartX = null;
+ let lineStartY = null;
+ let lineEndX = null;
+ let lineEndY = null;
+ let selectedVertex = null;
+ // Draw the initial shortest path
  drawShortestPath(graph, previous);
  // Add mouse down event listener
  const canvas = document.getElementById("canvas");
