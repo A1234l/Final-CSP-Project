@@ -18,6 +18,7 @@
         this.x = x;
         this.y = y;
         this.adjacentVertices = [];
+        this.connected = false;
       }
 
       addAdjacent(vertex) {
@@ -33,6 +34,15 @@
 
       addVertex(vertex) {
         this.vertices.push(vertex);
+      }
+
+      checkAllVerticesConnected() {
+        for (const vertex of this.vertices) {
+          if (!vertex.connected) {
+            return false;
+          }
+        }
+        return true;
       }
     }
 
@@ -97,7 +107,7 @@
       graph.vertices.forEach((vertex) => {
         ctx.beginPath();
         ctx.arc(vertex.x, vertex.y, 10, 0, 2 * Math.PI);
-        ctx.fillStyle = "#000000";
+        ctx.fillStyle = vertex.connected ? "#00FF00" : "#000000";
         ctx.fill();
         ctx.closePath();
       });
@@ -123,10 +133,10 @@
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      // Find the vertex that is within 5 pixels of the mouse click
+      // Check if the mouse down position is within 10 pixels of a vertex
       const clickedVertex = graph.vertices.find((vertex) => {
         const distance = calculateDistance(vertex, { x: mouseX, y: mouseY });
-        return distance <= 5;
+        return distance <= 10;
       });
 
       if (clickedVertex) {
@@ -169,22 +179,28 @@
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      // Find the vertex that is within 5 pixels of the mouse release
+      // Find the vertex that is within 10 pixels of the mouse release
       const snappedVertex = graph.vertices.find((vertex) => {
         const distance = calculateDistance(vertex, { x: mouseX, y: mouseY });
-        return distance <= 5;
+        return distance <= 10;
       });
 
       if (snappedVertex) {
         // Connect the line to the snapped vertex by adding them as adjacent vertices
         selectedVertex.addAdjacent(snappedVertex);
         snappedVertex.addAdjacent(selectedVertex);
+        selectedVertex.connected = true;
+        snappedVertex.connected = true;
       }
 
       // Redraw the canvas with the updated graph and remove the mouse move and mouse up event listeners
       drawGraph(graph);
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseup", handleMouseUp);
+
+      // Check if all vertices are connected
+      const allVerticesConnected = graph.checkAllVerticesConnected();
+      console.log("All vertices connected:", allVerticesConnected);
     }
 
     // Create a graph and add vertices
@@ -195,11 +211,6 @@
     graph.addVertex(vertexA);
     graph.addVertex(vertexB);
     graph.addVertex(vertexC);
-    // Define the adjacency between vertices
-    vertexA.addAdjacent(vertexB);
-    vertexB.addAdjacent(vertexA);
-    vertexB.addAdjacent(vertexC);
-    vertexC.addAdjacent(vertexB);
 
     // Initialize variables for line drawing
     let selectedVertex = null;
