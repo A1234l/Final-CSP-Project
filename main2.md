@@ -24,7 +24,10 @@
             { x: 300, y: 300 }
         ];
         let lineStart = { x: 0, y: 0 };
+        let lineEnd = { x: 0, y: 0 };
         let draggedNode = null;
+        let snappedNode = null;
+        let isDragging = false;
         canvas.addEventListener('mousedown', handleMouseDown);
         canvas.addEventListener('mouseup', handleMouseUp);
         canvas.addEventListener('mousemove', handleMouseMove);
@@ -43,44 +46,56 @@
             });
             if (draggedNode) {
                 lineStart = { x: draggedNode.x, y: draggedNode.y };
+                lineEnd = { x: draggedNode.x, y: draggedNode.y };
+                isDragging = true;
             }
         }
         function handleMouseUp() {
-            if (draggedNode) {
-                const hoveredNode = nodes.find(node => node !== draggedNode);
-                if (hoveredNode) {
-                    // Draw a line from the dragged node to the hovered node
+            if (isDragging) {
+                if (snappedNode) {
+                    // Draw a line from the dragged node to the snapped node
                     ctx.beginPath();
                     ctx.moveTo(draggedNode.x, draggedNode.y);
-                    ctx.lineTo(hoveredNode.x, hoveredNode.y);
+                    ctx.lineTo(snappedNode.x, snappedNode.y);
+                    ctx.stroke();
+                }
+                isDragging = false;
+                draggedNode = null;
+                snappedNode = null;
+                lineStart = { x: 0, y: 0 };
+                lineEnd = { x: 0, y: 0 };
+            }
+        }
+        function handleMouseMove(event) {
+            if (isDragging && draggedNode) {
+                const rect = canvas.getBoundingClientRect();
+                const mousePosition = {
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top
+                };
+                lineEnd.x = mousePosition.x;
+                lineEnd.y = mousePosition.y;
+                snappedNode = nodes.find(node => {
+                    const dx = node.x - mousePosition.x;
+                    const dy = node.y - mousePosition.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    return distance < 10;
+                });
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                drawNodes(); // Draw nodes
+                if (snappedNode) {
+                    ctx.beginPath();
+                    ctx.moveTo(lineStart.x, lineStart.y);
+                    ctx.lineTo(snappedNode.x, snappedNode.y);
+                    ctx.stroke();
+                } else {
+                    ctx.beginPath();
+                    ctx.moveTo(lineStart.x, lineStart.y);
+                    ctx.lineTo(lineEnd.x, lineEnd.y);
                     ctx.stroke();
                 }
             }
-            draggedNode = null;
-            lineStart = { x: 0, y: 0 };
-        }
-        function handleMouseMove(event) {
-            if (!draggedNode) {
-                return;
-            }
-            const rect = canvas.getBoundingClientRect();
-            const lineEnd = {
-                x: event.clientX - rect.left,
-                y: event.clientY - rect.top
-            };
-            const hoveredNode = nodes.find(node => node !== draggedNode);
-            if (hoveredNode) {
-                // Lock the line to the nearest node
-                lineEnd.x = hoveredNode.x;
-                lineEnd.y = hoveredNode.y;
-            }
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-            drawNodes(); // Draw nodes
-            ctx.beginPath();
-            ctx.moveTo(lineStart.x, lineStart.y);
-            ctx.lineTo(lineEnd.x, lineEnd.y);
-            ctx.stroke();
         }
         function drawNodes() {
             nodes.forEach(node => {
