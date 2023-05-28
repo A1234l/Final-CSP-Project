@@ -42,10 +42,10 @@
   </div>
   <div id="reset">
     <p>Thank you for playing. If you would like to play another round, please click the button below.</p>
-    <button onclick="post_name()">Restart Game<button>
-  </div>
+    <button onclick="post_name()">Restart Game</button>
+    </div>
   <div id="playing">
-    <p>Press <strong>Reset Lines</strong> twice to fully reset the map</p>
+    <p>Press Reset Lines twice to fully reset the map</p>
     <button id="calculateButton">Calculate Total Distance</button>
     <button id="resetButton">Reset Lines</button>
     <p>Total Distance: <span id="totalDistance">-</span></p>
@@ -53,6 +53,21 @@
 </body>
 
 <script>
+ // Vertex class to represent each HTML element
+ class Vertex {
+ constructor(id, x, y) {
+ this.id = id; // id of the vertex
+ this.x = x; // x-coordinate of the vertex
+ this.y = y; // y-coordinate of the vertex
+ this.adjacent = []; // array to store adjacent vertices
+ }
+
+ // Function to add an adjacent vertex
+ addAdjacent(vertex) {
+ this.adjacent.push(vertex);
+ }
+ }
+
 let lastMousePos = [];
 let currentMousePos = [];
 let lines = [];
@@ -60,7 +75,10 @@ let calculateButton;
 let resetButton;
 let totalDistanceElement;
 let backgroundImage;
-var gameState;
+let gameState;
+var missionBay, OceanFW, belmontPark, seaworld, fashionV, oceanBeach, BazaarDM, whaleyHouse, zoo, elPrado, balboaPark, fleetSciCenter, aerospaceMuseum, museumofPhotographicArts;
+let firehouseMuseum, maritimeMuseum, shorelinePark, ussMidway, gaslampQuarter, seaportVillage, cBridge, cBeach, cIsland, cabrilloMonu, oldPntLomaLighthouse, hotelDelC;
+let a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z;
 
 gameState = 1;
 
@@ -68,12 +86,39 @@ const finish_screen = document.getElementById("finish");
 const reset_screen = document.getElementById("reset");
 const playing_screen = document.getElementById("playing");
 
+finish_screen.style.display = "none";
+reset_screen.style.display = "none";
+
 function preload() {
   backgroundImage = loadImage('SDmap.png');
+  a = loadImage('letterA.png');
+
 }
 
 function setup() {
-  let canvas = createCanvas(1072,829);
+  createCanvas(1072,829);
+
+  missionBay = createSprite(150,200,20,20);
+  missionBay.addImage(a);
+  OceanFW = createSprite(90,200,20,20);
+  belmontPark = createSprite(95,220,20,20);
+  seaworld = createSprite(165,230,20,20);
+  fashionV = createSprite(316,225,20,20);
+  oceanBeach = createSprite(100,276,20,20);
+  BazaarDM = createSprite(150,200,20,20);
+  whaleyHouse = createSprite(150,200,20,20);
+  zoo = createSprite(150,200,20,20);
+  elPrado = createSprite(150,200,20,20);
+  balboaPark = createSprite(150,200,20,20);
+  fleetSciCenter = createSprite(150,200,20,20);
+  aerospaceMuseum = createSprite(150,200,20,20);
+  museumofPhotographicArts = createSprite(150,200,20,20);
+
+  let elementA = new Vertex("A", 69, 69);
+  let elementB = new Vertex("B", 11, 22);
+  let elementC = new Vertex("C", 420, 420);
+  let elementD = new Vertex("D", 34, 22);
+  let elementE = new Vertex("E", 90, 56);
 
   calculateButton = select('#calculateButton');
   calculateButton.mousePressed(calculateTotalDistance);
@@ -82,10 +127,14 @@ function setup() {
   resetButton.mousePressed(resetLines);
 
   totalDistanceElement = select('#totalDistance');
+
+  
 }
 
 function draw() {
   background(backgroundImage);
+
+  drawSprites();
 
   for (let i = 0; i < lines.length; i++) {
     let linePoints = lines[i];
@@ -99,6 +148,7 @@ function draw() {
     
     line(x1, y1, x2, y2);
   }
+  
 }
 
 function mouseClicked() {
