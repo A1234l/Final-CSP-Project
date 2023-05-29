@@ -19,6 +19,9 @@
 </head>
 <body>
   <canvas id="canvas" width="1072" height="829"></canvas>
+  <div>
+    <p>Total Distance: <span id="totalDistance">0</span></p>
+  </div>
   <script>
     // Vertex class to represent each HTML element
     class Vertex {
@@ -53,6 +56,16 @@
           }
         }
         return true;
+      }
+      // Function to calculate the total distance of all lines
+      calculateTotalDistance() {
+        let totalDistance = 0;
+        for (const vertex of this.vertices) {
+          for (const adjacentVertex of vertex.adjacent) {
+            totalDistance += calculateDistance(vertex, adjacentVertex);
+          }
+        }
+        return totalDistance;
       }
     }
     // Function to calculate the Euclidean distance between two vertices
@@ -155,6 +168,10 @@
         // Check if all vertices are connected
         allVerticesConnected = graph.checkAllVerticesConnected();
         console.log("All vertices connected:", allVerticesConnected);
+        // Calculate and display the total distance
+        const totalDistance = graph.calculateTotalDistance();
+        const totalDistanceElement = document.getElementById("totalDistance");
+        totalDistanceElement.textContent = totalDistance.toFixed(2);
       }
       // Reset the line positions and remove the event listeners
       lineStartX = null;
