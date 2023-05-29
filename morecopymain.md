@@ -1,6 +1,6 @@
 <html>
 <head>
-  <h1 id="title-thing">Welcome to the San Diego Map Game!</h1>
+  <h1 id="title-thing">San Diego Map Game</h1>
   <style>
     #title-thing{
       text-align: center;
@@ -46,9 +46,14 @@
       text-align: center;
       color: white;
     }
+    #finish-form{
+      text-align: center;
+    }
   </style>
-  <div class="button-container">
-  <button class="gen-button" onclick="gameScreen(1)" id="start-button">Start Game</button>
+  <div id="start-page">
+    <div class="button-container">
+    <button class="gen-button" onclick="gameScreen(1)" id="start-button">Start Game</button>
+    </div>
   </div>
   <div id="end-page">
     <h1>Thank you for playing!</h1>
@@ -60,39 +65,77 @@
   </div>
 </head>
 <body>
+    <div id="finish-form">
+      <form action="javascript:userCreate()">
+        <p><label>
+            Username:
+            <input type="text" name="username" id="username" placeholder="Enter username here" required>
+        </label></p>
+        <p><label>
+            Total Distance of your route: <span id="totalDistance">0.00</span>
+        </label></p>
+        <p><label>
+            Total Distance of closest route: <span id="totalDistanceClosest">0.00</span>
+        </label></p>
+        <p><label>
+            Calculated score: <span id="score">0</span>
+        </label></p>
+        <p><label>
+            Locations visited: <span id="locationList">NA</span>
+        </label></p>
+        <p>
+        <!-- Popup message on button click -->
+            <button onclick="alert('Your score has been posted!')" id="form-submit-button">Submit</button>
+        </p>
+      </form>
+      <!-- Temporary button, remove later -->
+      <div class="button-container">
+        <button id="temporary" onclick="userCreate()" class="gen-button">Temporary</button>
+      </div>
+    </div>
   <div id="game-page">
     <div class="button-container">
       <button id="game-finish-button" class="gen-button" onclick="gameScreen(2)">Finish Game</button>
       <button id="resetButton" class="gen-button">Reset</button>
     </div>
-    <p>Total Distance: <span id="totalDistance">0.00</span></p>
     <canvas id="canvas" width="1072" height="829"></canvas>
   </div>
   <script>
-    const startButton = document.getElementById("start-button");
+    const startPage = document.getElementById("start-page");
     const endPage = document.getElementById("end-page");
     const gamePage = document.getElementById("game-page");
     const finishButton = document.getElementById("game-finish-button");
     const resetButton = document.getElementById("resetButton");
     const canvas = document.getElementById("canvas");
+    const finishForm = document.getElementById("finish-form");
+    const submitButton = document.getElementById("form-submit-button");
+    const temp = document.getElementById("temporary");
     // Initially hides end page and game page and finish button
     endPage.style.display = "none";
     gamePage.style.display = "none";
     finishButton.style.display = "none";
+    finishForm.style.display = "none";
     // Function switches screen based on status parameter
     function gameScreen(status){
       if(status === 1){
-        startButton.style.display = "none";
+        startPage.style.display = "none";
         gamePage.style.display = "block";
+        resetButton.style.display = "block";
       }
       if(status === 2){
-        gamePage.style.display = "none";
-        endPage.style.display = "block";
+        finishForm.style.display = "block";
+        resetButton.style.display = "none";
       }
       if(status === 3){
-        startButton.style.display = "block";
+        startPage.style.display = "block";
         endPage.style.display = "none";
       }
+    }
+    // Add POST here for api
+    function userCreate(){
+      finishForm.style.display = "none";
+      gamePage.style.display = "none";
+      endPage.style.display = "block";
     }
     // Vertex class to represent each HTML element
     class Vertex {
@@ -300,7 +343,8 @@
     // Add event listeners
     canvas.addEventListener("mousedown", handleMouseDown);
     resetButton.addEventListener("click", handleResetButtonClick);
-    finishButton.addEventListener("click", handleResetButtonClick);
+    submitButton.addEventListener("click", handleResetButtonClick);
+    temp.addEventListener("click", handleResetButtonClick);
   </script>
 </body>
 </html>
