@@ -53,7 +53,9 @@
   <div id="end-page">
     <h1>Thank you for playing!</h1>
     <p>If you would like to play another round, please click the button below.</p>
-    <button class="gen-button" onclick="gameScreen(3)">Return to Game Page</button>
+    <div class="button-container">
+      <button class="gen-button" onclick="gameScreen(3)">Return to Game Page</button>
+    </div>
     <h3>If you would like to return to the home page, please click <span id="linked-gametohome"><a href="{{site.baseurl}}/index">here</a></span>.</h3>
   </div>
 </head>

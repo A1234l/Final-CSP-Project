@@ -93,7 +93,7 @@
     overflow: hidden;
   }
 
-  span{
+  #span-button{
     background: #009614;
     height: 100%;
     width: 0;
@@ -105,10 +105,11 @@
     transition: 0.5s;
   }
 
-  .button-main:hover{
-    border: none;
-  }
+  // Kept the border for more smooth transition. @Jishnu if you want you can uncomment this
+  // .button-main:hover{
+  //   border: none;
+  // }
 
-  .button-main:hover span{
+  .button-main:hover #span-button{
     width: 100%;
   }
