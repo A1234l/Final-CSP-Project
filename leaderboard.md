@@ -3,7 +3,8 @@
     font-size: 150%;
   }
 </style>
-<h><strong>User Information</strong></h>
+<h1>(Leaderboard records down the top scorers and omits all other data)</h1>
+<h1><strong>User Information</strong></h1>
 <table id="recentGames" style="width: 100%;">
   <tr>
     <th>Username</th>

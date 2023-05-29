@@ -66,6 +66,7 @@
 </head>
 <body>
     <div id="finish-form">
+      <h3 style="color:white;">Game over, please record your score!</h3>
       <form action="javascript:userCreate()">
         <p><label>
             Username:
@@ -121,10 +122,12 @@
         startPage.style.display = "none";
         gamePage.style.display = "block";
         resetButton.style.display = "block";
+        finishButton.style.display = "none";
       }
       if(status === 2){
         finishForm.style.display = "block";
         resetButton.style.display = "none";
+        finishButton.style.display = "none";
       }
       if(status === 3){
         startPage.style.display = "block";
@@ -282,6 +285,7 @@
         // Check if all vertices are connected
         allVerticesConnected = graph.checkAllVerticesConnected();
         console.log("All vertices connected:", allVerticesConnected);
+        // allows user to finish if all points connected
         if(allVerticesConnected === true){
           finishButton.style.display = "block";
         }
@@ -315,6 +319,8 @@
       drawGraph(graph);
       // Reset the allVerticesConnected flag
       allVerticesConnected = graph.checkAllVerticesConnected();
+      // hides finish button if lines are reset
+      finishButton.style.display = "none";
     }
     // Create the graph
     const graph = new Graph();
