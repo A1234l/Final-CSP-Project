@@ -78,7 +78,7 @@
     margin: 20px auto;
   }
 
-  button{
+  .button-main{
     width: 200px;
     padding: 15px 0;
     text-align: center;
@@ -105,11 +105,10 @@
     transition: 0.5s;
   }
 
-  button:hover{
+  .button-main:hover{
     border: none;
   }
 
-
-  button:hover span{
+  .button-main:hover span{
     width: 100%;
   }
