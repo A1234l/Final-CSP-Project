@@ -80,7 +80,7 @@
             Total Distance of shortest route: <span id="totalDistanceClosest">0.00</span> miles
         </label></p>
         <p><label>
-            Calculated score: <span id="score">0</span>
+            Calculated score: <span id="scoring">0</span>
         </label></p>
         <p><label>
             Locations visited: <span id="locationList">NA</span>
@@ -112,6 +112,8 @@
     const finishForm = document.getElementById("finish-form");
     const submitButton = document.getElementById("form-submit-button");
     const temp = document.getElementById("temporary");
+    const totalDistanceDisplay = document.getElementById("totalDistance");
+    const scoreDisplay = document.getElementById("scoring");
     // Initially hides end page and game page and finish button
     endPage.style.display = "none";
     gamePage.style.display = "none";
@@ -131,6 +133,10 @@
         finishButton.style.display = "none";
         // Draw the shortest path on the canvas
         drawShortestPath(heuristic, shortestPath);
+        if(parseInt(shortestDistanceResult.innerHTML)>parseInt(totalDistanceDisplay.innerHTML)){
+            totalDistanceDisplay.textContent = "**error**";
+            scoreDisplay.textContent = "NA";
+        }
       }
       if(status === 3){
         startPage.style.display = "block";
@@ -378,7 +384,7 @@
               }
               // Calculate and update the total distance
               const totalDistance = graph.calculateTotalDistance();
-              document.getElementById("totalDistance").textContent = (totalDistance/54).toFixed(2);
+              totalDistanceDisplay.textContent = (totalDistance/54).toFixed(2);
             }
             // Reset the line positions and remove the event listeners
             lineStartX = null;
