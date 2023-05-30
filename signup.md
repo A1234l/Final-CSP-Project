@@ -1,13 +1,13 @@
 <head>
-    <link rel="stylesheet" href="signin.scss">
-    <title>Geotourism - Log In</title>
+    <link rel="stylesheet" href="signup.scss">
+    <title>Geotourism - Sign Up</title>
 </head>
 <body>
     <section>
         <div class="signin-box">
             <div class="signin-value">
                 <form action="">
-                    <h2>Sign In</h2>
+                    <h2>Sign Up</h2>
                     <div class="inputbox">
                         <ion-icon name="mail-outline"></ion-icon>
                         <input type="email" required>
@@ -18,10 +18,7 @@
                         <input type="password" required>
                         <label for="">Password</label>
                     </div>
-                    <button>Log in</button>
-                    <div class="register">
-                        <p>Don't have an account? <a href="https://a1234l.github.io/Final-CSP-Project/signin">Register</a></p>
-                    </div>
+                    <button>Sign Up</button>
                 </form>
             </div>
         </div>
