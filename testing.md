@@ -1,0 +1,230 @@
+<html>
+<head>
+ <title>Shortest Path Visualization</title>
+ <style>
+ canvas {
+ border: 1px solid #000000;
+ }
+ </style>
+</head>
+<body>
+<h1>Shortest Path Visualization</h1>
+ <canvas id="canvas2" width="1072" height="829"></canvas>
+
+ <script>
+ // Vertex class to represent each HTML element
+ class Vertex {
+ constructor(id, x, y) {
+ this.id = id; // id of the vertex
+ this.x = x; // x-coordinate of the vertex
+ this.y = y; // y-coordinate of the vertex
+ this.adjacent = []; // array to store adjacent vertices
+ }
+
+ // Function to add an adjacent vertex
+ addAdjacent(vertex) {
+ this.adjacent.push(vertex);
+ }
+ }
+
+ // Graph class to hold all the vertices
+ class Graph {
+ constructor() {
+ this.vertices = []; // array to store all vertices
+ this.map = {}; // hash map to store vertices by their ids
+ }
+
+ // Function to add a vertex to the graph
+ addVertex(vertex) {
+ this.vertices.push(vertex);
+ this.map[vertex.id] = vertex; // add vertex to the map
+ }
+ }
+
+ // Function to calculate the Euclidean distance between two vertices
+ function getDistance(v1, v2) {
+ const dx = v1.x - v2.x;
+ const dy = v1.y - v2.y;
+ return Math.sqrt(dx * dx + dy * dy);
+ }
+
+ // Function to calculate the total distance of a given path
+ function getPathDistance(path) {
+ let distance = 0;
+ for (let i = 0; i < path.length - 1; i++) {
+ distance += getDistance(path[i], path[i+1]);
+ }
+ return distance;
+ }
+
+ // Function to generate all possible paths that visit all vertices exactly once
+ function generatePaths(graph) {
+ const paths = [];
+ const visited = new Set();
+
+ function dfs(path) {
+ if (path.length === graph.vertices.length) {
+ paths.push(path);
+ return;
+ }
+
+ graph.vertices.forEach((vertex) => {
+ if (!visited.has(vertex)) {
+ visited.add(vertex);
+ dfs([...path, vertex]);
+ visited.delete(vertex);
+ }
+ });
+ }
+
+ graph.vertices.forEach((vertex) => {
+ visited.add(vertex);
+ dfs([vertex]);
+ visited.delete(vertex);
+ });
+
+ return paths;
+ }
+
+ // Dijkstra's algorithm implementation
+ function dijkstra(graph, start, end) {
+ const distances = {}; // object to store distances from start vertex to all other vertices
+ const previous = {}; // object to store previous vertex in the shortest path
+ const unvisited = new Set(); // set to store unvisited vertices
+
+ // Initialize distances and previous objects
+ graph.vertices.forEach((vertex) => {
+ distances[vertex.id] = Infinity;
+ previous[vertex.id] = null;
+ unvisited.add(vertex.id);
+ });
+
+ distances[start.id] = 0; // distance to start vertex is 0
+
+ while (unvisited.size > 0) {
+ let minId = null;
+
+ // Find the unvisited vertex with the smallest distance
+ unvisited.forEach((vertexId) => {
+ if (minId === null || distances[vertexId] < distances[minId]) {
+ minId = vertexId;
+ }
+ });
+
+ unvisited.delete(minId); // remove the vertex from the unvisited set
+
+ const current = graph.map[minId]; // use the map to access the vertex in constant time
+
+ if (current === end) {
+ break;
+ }
+
+ // Update distances and previous for each adjacent vertex
+ current.adjacent.forEach((neighbor) => {
+ const alt = distances[minId] + getDistance(current, neighbor);
+
+ if (alt < distances[neighbor.id]) {
+ distances[neighbor.id] = alt;
+ previous[neighbor.id] = current.id;
+ }
+ });
+ }
+
+ const path = [];
+ let current = end;
+ while (current !== start) {
+ path.unshift(current);
+ current = graph.map[previous[current.id]];
+ }
+ path.unshift(start);
+
+ return path; // return the shortest path
+ }
+
+ // Function to draw the shortest path on the canvas
+ function drawShortestPath(graph, path) {
+ const canvas = document.getElementById("canvas2");
+ const ctx = canvas.getContext("2d");
+
+ ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
+
+ // Draw all vertices as white circles
+ graph.vertices.forEach((vertex) => {
+ ctx.beginPath();
+ ctx.arc(vertex.x, vertex.y, 10, 0, 2 * Math.PI);
+ ctx.fillStyle = "#FFFFFF";
+ ctx.fill();
+ ctx.closePath();
+
+ });
+
+ // Draw the path as a red line
+ ctx.beginPath();
+ ctx.strokeStyle = "#FF0000";
+ ctx.lineWidth = 3;
+
+ for (let i = 0; i < path.length - 1; i++) {
+ const current = path[i];
+ const next = path[i+1];
+ ctx.moveTo(current.x, current.y);
+ ctx.lineTo(next.x, next.y);
+ }
+
+ ctx.stroke();
+ ctx.closePath();
+ }
+
+ // Example usage
+ const heuristic = new Graph();
+ // Define HTML elements and their positions
+ let elements = [
+     { id: "A", x: 69, y: 69 },
+     { id: "B", x: 11, y: 22 },
+     { id: "C", x: 420, y: 420 },
+     { id: "D", x: 34, y: 22 },
+     { id: "E", x: 90, y: 56 },
+ ];
+
+ // Add vertices to the graph
+ elements.forEach((element) => {
+     const vertex = new Vertex(element.id, element.x, element.y);
+     heuristic.addVertex(vertex);
+ });
+
+ // Define adjacency relationships
+ heuristic.vertices.forEach((vertex) => {
+     const closestPoints = elements
+         .filter((p) => p.id !== vertex.id)
+         .sort((a, b) => getDistance(vertex, a) - getDistance(vertex, b))
+         .slice(0, 2);
+
+     closestPoints.forEach((point) => {
+         const adjacentVertex = heuristic.map[point.id];
+         vertex.addAdjacent(adjacentVertex);
+     });
+ });
+
+ // Generate all possible paths and find the shortest one
+ const paths = generatePaths(heuristic);
+ let shortestPath = null;
+ let shortestDistance = Infinity;
+ paths.forEach((path) => {
+ const distance = getPathDistance(path);
+ if (distance < shortestDistance) {
+ shortestPath = path;
+ shortestDistance = distance;
+ }
+ });
+
+ // Draw the shortest path on the canvas
+ drawShortestPath(heuristic, shortestPath);
+
+ // Store the pixel length in a global variable called path_length
+ const path_length = Math.round(shortestDistance);
+
+ // Log the pixel length to the console
+ console.log("Pixel length of shortest path:", path_length);
+
+ </script>
+</body>
+</html>

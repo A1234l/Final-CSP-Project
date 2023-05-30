@@ -168,13 +168,27 @@
       }
       // Function to check if all vertices are connected
       checkAllVerticesConnected() {
-        for (const vertex of this.vertices) {
-          if (!vertex.connected) {
-            return false;
-          }
-        }
-        return true;
+  const visited = new Set(); // Set to store visited vertices
+  const stack = []; // Stack for DFS traversal
+
+  // Start DFS from the first vertex in the graph
+  stack.push(graph.vertices[0]);
+
+  while (stack.length > 0) {
+    const vertex = stack.pop();
+    visited.add(vertex);
+
+    // Add all adjacent unvisited vertices to the stack
+    for (const adjacentVertex of vertex.adjacent) {
+      if (!visited.has(adjacentVertex)) {
+        stack.push(adjacentVertex);
       }
+    }
+  }
+
+  // Check if all vertices are visited
+  return visited.size === graph.vertices.length;
+}
       // Function to calculate the Euclidean distance between two vertices
       calculateDistance(v1, v2) {
         const dx = v1.x - v2.x;
