@@ -432,7 +432,7 @@
           // Create the graph
           const graph = new Graph();
           // Define the vertices as an array of objects
-          const vertices = [
+          let vertices = [
             { id: "A", x: 150, y: 200 },
             { id: "B", x: 90, y: 200 },
             { id: "C", x: 95, y: 220 },
