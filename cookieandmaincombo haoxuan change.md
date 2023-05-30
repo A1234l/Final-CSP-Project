@@ -135,7 +135,7 @@
         drawShortestPath(heuristic, shortestPath);
         var intShortestDistance=parseInt(shortestDistanceResult.innerHTML);
         var intUserDistance=parseInt(totalDistanceDisplay.innerHTML);
-        var score = 1.0*Math.pow(1000,(-Math.log(intUserDistance/intShortestDistance)));
+        var score = 1.0*Math.pow(1000,(-(Math.log(intUserDistance/intShortestDistance)-1)));
         if(intShortestDistance>intUserDistance){
             totalDistanceDisplay.textContent = "**error**";
             scoreDisplay.textContent = "NA";
