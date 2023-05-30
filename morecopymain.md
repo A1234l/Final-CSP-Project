@@ -335,13 +335,11 @@
             { id: "F", x: 100, y: 276 },
             // Add more vertices here as needed
           ];
-
           // Loop through the vertices array and create a new Vertex object for each one
           for (const vertex of vertices) {
             const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
             graph.addVertex(newVertex);
           }
-
           // Initialize variables
           let selectedVertex = null;
           let lineStartX = null;
