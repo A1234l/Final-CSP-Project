@@ -345,7 +345,7 @@
             { id: "Z", x: 120, y: 530 },
             { id: "MissionTrails", x: 640, y: 50},
             { id: "Walmart", x: 500, y: 590},
-            { id: "Costco", x: 670, y: 190},
+            { id: "Costco", x: 670, y: 190}
 
             // Add more vertices here as needed
           ];
