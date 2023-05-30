@@ -67,7 +67,7 @@
 <body>
     <div id="finish-form">
       <h3 style="color:white;">Game over, please record your score!</h3>
-      <p style="color:white;">The shortest route is shown on the map with the (enter color) lines</p>
+      <p style="color:white;">The shortest route is shown on the map with the red lines</p>
       <form action="javascript:userCreate()">
         <p><label>
             Username:
@@ -133,9 +133,20 @@
         finishButton.style.display = "none";
         // Draw the shortest path on the canvas
         drawShortestPath(heuristic, shortestPath);
-        if(parseInt(shortestDistanceResult.innerHTML)>parseInt(totalDistanceDisplay.innerHTML)){
+        // Calculates the score
+        let intShortestDistance=parseInt(shortestDistanceResult.innerHTML);
+        let intUserDistance=parseInt(totalDistanceDisplay.innerHTML);
+        let score = (1.0*Math.pow(1000,(-(Math.log(intUserDistance/intShortestDistance)-1)))).toFixed(2);
+        // Invalidates score in case distance is less than shortest distance. Displays score if otherwise
+        if(intShortestDistance>intUserDistance){
             totalDistanceDisplay.textContent = "**error**";
             scoreDisplay.textContent = "NA";
+        } else{
+            // Adds bonus score if user chooses more points(since more points means higher difficulty)
+            if(vertices.length > 5){
+                score = (score*(1+0.12*(vertices.length-5))).toFixed(2);
+            }
+            scoreDisplay.textContent = score.toString();
         }
       }
       if(status === 3){
@@ -244,90 +255,92 @@
     return paths;
     }
 
-    // Dijkstra's algorithm implementation
-    function dijkstra(graph, start, end) {
-    const distances = {}; // object to store distances from start vertex to all other vertices
-    const previous = {}; // object to store previous vertex in the shortest path
-    const unvisited = new Set(); // set to store unvisited vertices
+    // // Dijkstra's algorithm implementation(not used so it is commented out)
+    // function dijkstra(graph, start, end) {
+    // const distances = {}; // object to store distances from start vertex to all other vertices
+    // const previous = {}; // object to store previous vertex in the shortest path
+    // const unvisited = new Set(); // set to store unvisited vertices
 
-    // Initialize distances and previous objects
-    graph.vertices.forEach((vertex) => {
-    distances[vertex.id] = Infinity;
-    previous[vertex.id] = null;
-    unvisited.add(vertex.id);
-    });
+    // // Initialize distances and previous objects
+    // graph.vertices.forEach((vertex) => {
+    // distances[vertex.id] = Infinity;
+    // previous[vertex.id] = null;
+    // unvisited.add(vertex.id);
+    // });
 
-    distances[start.id] = 0; // distance to start vertex is 0
+    // distances[start.id] = 0; // distance to start vertex is 0
 
-    while (unvisited.size > 0) {
-    let minId = null;
+    // while (unvisited.size > 0) {
+    // let minId = null;
 
-    // Find the unvisited vertex with the smallest distance
-    unvisited.forEach((vertexId) => {
-    if (minId === null || distances[vertexId] < distances[minId]) {
-    minId = vertexId;
-    }
-    });
+    // // Find the unvisited vertex with the smallest distance
+    // unvisited.forEach((vertexId) => {
+    // if (minId === null || distances[vertexId] < distances[minId]) {
+    // minId = vertexId;
+    // }
+    // });
 
-    unvisited.delete(minId); // remove the vertex from the unvisited set
+    // unvisited.delete(minId); // remove the vertex from the unvisited set
 
-    const current = graph.map[minId]; // use the map to access the vertex in constant time
+    // const current = graph.map[minId]; // use the map to access the vertex in constant time
 
-    if (current === end) {
-    break;
-    }
+    // if (current === end) {
+    // break;
+    // }
 
-    // Update distances and previous for each adjacent vertex
-    current.adjacent.forEach((neighbor) => {
-    const alt = distances[minId] + heuristic.calculateDistance(current, neighbor);
+    // // Update distances and previous for each adjacent vertex
+    // current.adjacent.forEach((neighbor) => {
+    // const alt = distances[minId] + heuristic.calculateDistance(current, neighbor);
 
-    if (alt < distances[neighbor.id]) {
-    distances[neighbor.id] = alt;
-    previous[neighbor.id] = current.id;
-    }
-    });
-    }
+    // if (alt < distances[neighbor.id]) {
+    // distances[neighbor.id] = alt;
+    // previous[neighbor.id] = current.id;
+    // }
+    // });
+    // }
 
-    const path = [];
-    let current = end;
-    while (current !== start) {
-    path.unshift(current);
-    current = graph.map[previous[current.id]];
-    }
-    path.unshift(start);
+    // const path = [];
+    // let current = end;
+    // while (current !== start) {
+    // path.unshift(current);
+    // current = graph.map[previous[current.id]];
+    // }
+    // path.unshift(start);
 
-    return path; // return the shortest path
-    }
-    // Function to draw the graph on the canvas
+    // return path; // return the shortest path
+    // }
+
+// Function to draw the graph on the canvas
     function drawGraph(graph) {
-      const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
-      // Draw all vertices as white circles
-      graph.vertices.forEach((vertex) => {
-        ctx.beginPath();
-        ctx.arc(vertex.x, vertex.y, 10, 0, 2 * Math.PI);
-        ctx.fillStyle = vertex.connected ? "#00FF00" : "#FFFFFF";
-        ctx.fill();
-        ctx.closePath();
-      });
-      // Draw the connected lines
-      ctx.beginPath();
-      ctx.strokeStyle = "#FF0000";
-      ctx.lineWidth = 3;
-      graph.vertices.forEach((vertex) => {
-        vertex.adjacent.forEach((adjacentVertex) => {
-          ctx.moveTo(vertex.x, vertex.y);
-          ctx.lineTo(adjacentVertex.x, adjacentVertex.y);
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
+        // Draw all vertices as black circles
+        graph.vertices.forEach((vertex) => {
+            ctx.beginPath();
+            ctx.arc(vertex.x, vertex.y, 10, 0, 2 * Math.PI);
+            ctx.fillStyle = vertex.connected ? "#00FF00" : "#000000";
+            ctx.fill();
+            ctx.closePath();
         });
-      });
-      ctx.stroke();
-      ctx.closePath();
+        // Draw the connected lines
+        ctx.beginPath();
+        ctx.strokeStyle = "#0000FF";
+        ctx.lineWidth = 3;
+        graph.vertices.forEach((vertex) => {
+            vertex.adjacent.forEach((adjacentVertex) => {
+            ctx.moveTo(vertex.x, vertex.y);
+            ctx.lineTo(adjacentVertex.x, adjacentVertex.y);
+            });
+        });
+        ctx.stroke();
+        ctx.closePath();
     }
+
     // Function to handle the mouse down event
     function handleMouseDown(e) {
-      if (allVerticesConnected) {
-              return; // Return early if all vertices are already connected
+        if (allVerticesConnected) {
+                return; // Return early if all vertices are already connected
             }
             const canvas = e.target;
             const rect = canvas.getBoundingClientRect();
@@ -335,22 +348,22 @@
             const mouseY = e.clientY - rect.top;
             // Find the vertex that the user clicked on (if any)
             const vertex = graph.vertices.find((vertex) => {
-              const dx = vertex.x - mouseX;
-              const dy = vertex.y - mouseY;
-              return dx * dx + dy * dy <= 100; // check if the click is within the vertex's radius
+                const dx = vertex.x - mouseX;
+                const dy = vertex.y - mouseY;
+                return dx * dx + dy * dy <= 100; // check if the click is within the vertex's radius
             });
             if (vertex) {
-              // Store the selected vertex and the starting position of the line
-              selectedVertex = vertex;
-              lineStartX = vertex.x;
-              lineStartY = vertex.y;
-              // Add mouse move and mouse up event listeners
-              canvas.addEventListener("mousemove", handleMouseMove);
-              canvas.addEventListener("mouseup", handleMouseUp);
+                // Store the selected vertex and the starting position of the line
+                selectedVertex = vertex;
+                lineStartX = vertex.x;
+                lineStartY = vertex.y;
+                // Add mouse move and mouse up event listeners
+                canvas.addEventListener("mousemove", handleMouseMove);
+                canvas.addEventListener("mouseup", handleMouseUp);
             }
-          }
-          // Function to handle the mouse move event
-          function handleMouseMove(e) {
+            }
+            // Function to handle the mouse move event
+            function handleMouseMove(e) {
             const canvas = e.target;
             const rect = canvas.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
@@ -363,187 +376,188 @@
             // Draw the temporary line from the selected vertex to the mouse position
             const ctx = canvas.getContext("2d");
             ctx.beginPath();
-            ctx.strokeStyle = "#0000FF";
+            ctx.strokeStyle = "#FF0000";
             ctx.lineWidth = 2;
             ctx.moveTo(lineStartX, lineStartY);
             ctx.lineTo(lineEndX, lineEndY);
             ctx.stroke();
             ctx.closePath();
-          }
-          // Function to handle the mouse up event
-          function handleMouseUp(e) {
-            const canvas = e.target;
-            // Find the vertex that the user released the mouse on (if any)
-            const vertex = graph.vertices.find((vertex) => {
-              const dx = vertex.x - lineEndX;
-              const dy = vertex.y - lineEndY;
-              const distance = Math.sqrt(dx * dx + dy * dy);
-              return distance <= 20; // check if the release point is within 20 pixels of the vertex
-            });
-            if (vertex && !vertex.connected) {
-              // Connect the line to the snapped vertex
-              selectedVertex.addAdjacent(vertex);
-              vertex.addAdjacent(selectedVertex);
-              // Set the vertices as connected
-              selectedVertex.connected = true;
-              vertex.connected = true;
-              // Redraw the canvas with the updated graph and line connection
-              drawGraph(graph);
-              // Check if all vertices are connected
-              allVerticesConnected = graph.checkAllVerticesConnected();
-              console.log("All vertices connected:", allVerticesConnected);
-              // allows user to finish if all points connected
-              if(allVerticesConnected === true){
-                finishButton.style.display = "block";
-              }
-              // Calculate and update the total distance
-              const totalDistance = graph.calculateTotalDistance();
-              totalDistanceDisplay.textContent = (totalDistance/54).toFixed(2);
             }
-            // Reset the line positions and remove the event listeners
-            lineStartX = null;
-            lineStartY = null;
-            lineEndX = null;
-            lineEndY = null;
-            selectedVertex = null;
-            canvas.removeEventListener("mousemove", handleMouseMove);
-            canvas.removeEventListener("mouseup", handleMouseUp);
-          }
-          // Function to handle the reset button click event
-          function handleResetButtonClick() {
-            // Clear the canvas
-            const canvas = document.getElementById("canvas");
-            const ctx = canvas.getContext("2d");
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // Reset all vertices
-            for (const vertex of graph.vertices) {
-              vertex.connected = false;
-              vertex.adjacent = [];
-            }
-            // Reset the total distance
-            document.getElementById("totalDistance").textContent = "0.00";
-            // Redraw the empty canvas
+
+        // Function to handle the mouse up event
+        function handleMouseUp(e) {
+        const canvas = e.target;
+        // Find the vertex that the user released the mouse on (if any)
+        const vertex = graph.vertices.find((vertex) => {
+            const dx = vertex.x - lineEndX;
+            const dy = vertex.y - lineEndY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            return distance <= 20; // check if the release point is within 20 pixels of the vertex
+        });
+        if (vertex && !vertex.connected) {
+            // Connect the line to the snapped vertex
+            selectedVertex.addAdjacent(vertex);
+            vertex.addAdjacent(selectedVertex);
+            // Set the vertices as connected
+            selectedVertex.connected = true;
+            vertex.connected = true;
+            // Redraw the canvas with the updated graph and line connection
             drawGraph(graph);
-            // Reset the allVerticesConnected flag
+            // Check if all vertices are connected
             allVerticesConnected = graph.checkAllVerticesConnected();
-            // hides finish button if lines are reset
-            finishButton.style.display = "none";
-          }
-          // Create the graph
-          const graph = new Graph();
-          // Define the vertices as an array of objects
-          let vertices = [
-            { id: "A", x: 150, y: 200 },
-            { id: "B", x: 90, y: 200 },
-            { id: "C", x: 95, y: 220 },
-            { id: "D", x: 165, y: 230 },
-            { id: "E", x: 316, y: 225 },
-            { id: "F", x: 100, y: 276 },
-            // Add more vertices here as needed
-          ];
-          // Loop through the vertices array and create a new Vertex object for each one
-          for (const vertex of vertices) {
-            const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
-            graph.addVertex(newVertex);
-          }
-
-        // Example usage
-        const heuristic = new Graph();
-        // Loop through the vertices array and create a new Vertex object for each one
-        for (const vertex of vertices) {
-            const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
-            heuristic.addVertex(newVertex);
+            console.log("All vertices connected:", allVerticesConnected);
+            // allows user to finish if all points connected
+            if(allVerticesConnected === true){
+            finishButton.style.display = "block";
+            }
+            // Calculate and update the total distance
+            const totalDistance = graph.calculateTotalDistance();
+            totalDistanceDisplay.textContent = (totalDistance/54).toFixed(2);
         }
-        // Function to calculate the total distance of heuristic path
-        function getPathDistance(path) {
-        let distance = 0;
-        for (let i = 0; i < path.length - 1; i++) {
-        distance += heuristic.calculateDistance(path[i], path[i+1]);
+        // Reset the line positions and remove the event listeners
+        lineStartX = null;
+        lineStartY = null;
+        lineEndX = null;
+        lineEndY = null;
+        selectedVertex = null;
+        canvas.removeEventListener("mousemove", handleMouseMove);
+        canvas.removeEventListener("mouseup", handleMouseUp);
         }
-        return distance;
-        }
-
-        // Function to draw the shortest path on the canvas
-        function drawShortestPath(graph, path) {
+        // Function to handle the reset button click event
+        function handleResetButtonClick() {
+        // Clear the canvas
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
-
-        // Draw all vertices as white circles
-        graph.vertices.forEach((vertex) => {
-        ctx.beginPath();
-        ctx.arc(vertex.x, vertex.y, 10, 0, 2 * Math.PI);
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fill();
-        ctx.closePath();
-
-        });
-
-        // Draw the path as a red line
-        ctx.beginPath();
-        ctx.strokeStyle = "#FF0000";
-        ctx.lineWidth = 3;
-
-        for (let i = 0; i < path.length - 1; i++) {
-        const current = path[i];
-        const next = path[i+1];
-        ctx.moveTo(current.x, current.y);
-        ctx.lineTo(next.x, next.y);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Reset all vertices
+        for (const vertex of graph.vertices) {
+            vertex.connected = false;
+            vertex.adjacent = [];
+        }
+        // Reset the total distance
+        document.getElementById("totalDistance").textContent = "0.00";
+        // Redraw the empty canvas
+        drawGraph(graph);
+        // Reset the allVerticesConnected flag
+        allVerticesConnected = graph.checkAllVerticesConnected();
+        // hides finish button if lines are reset
+        finishButton.style.display = "none";
+        }
+        // Create the graph
+        const graph = new Graph();
+        // Define the vertices as an array of objects
+        let vertices = [
+        { id: "A", x: 150, y: 200 },
+        { id: "B", x: 90, y: 200 },
+        { id: "C", x: 95, y: 220 },
+        { id: "D", x: 165, y: 230 },
+        { id: "E", x: 316, y: 225 },
+        { id: "F", x: 100, y: 276 },
+        // Add more vertices here as needed
+        ];
+        // Loop through the vertices array and create a new Vertex object for each one
+        for (const vertex of vertices) {
+        const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
+        graph.addVertex(newVertex);
         }
 
-        ctx.stroke();
-        ctx.closePath();
-        }
+    // Example usage
+    const heuristic = new Graph();
+    // Loop through the vertices array and create a new Vertex object for each one
+    for (const vertex of vertices) {
+        const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
+        heuristic.addVertex(newVertex);
+    }
+    // Function to calculate the total distance of heuristic path
+    function getPathDistance(path) {
+    let distance = 0;
+    for (let i = 0; i < path.length - 1; i++) {
+    distance += heuristic.calculateDistance(path[i], path[i+1]);
+    }
+    return distance;
+    }
 
-        // Define adjacency relationships
-        heuristic.vertices.forEach((vertex) => {
-        const closestPoints = vertices
-            .filter((p) => p.id !== vertex.id)
-            .sort((a, b) => heuristic.calculateDistance(vertex, a) - heuristic.calculateDistance(vertex, b))
-            .slice(0, 2);
+    // Function to draw the shortest path on the canvas
+    function drawShortestPath(graph, path) {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
 
-        closestPoints.forEach((point) => {
-            const adjacentVertex = heuristic.map[point.id];
-            vertex.addAdjacent(adjacentVertex);
-        });
-        });
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
 
-        // Generate all possible paths and find the shortest one
-        const paths = generatePaths(heuristic);
-        let shortestPath = null;
-        let shortestDistance = Infinity;
-        paths.forEach((path) => {
-        const distance = getPathDistance(path);
-        if (distance < shortestDistance) {
-        shortestPath = path;
-        shortestDistance = distance;
-        }
-        });
+    // Draw all vertices as black circles
+    graph.vertices.forEach((vertex) => {
+    ctx.beginPath();
+    ctx.arc(vertex.x, vertex.y, 10, 0, 2 * Math.PI);
+    ctx.fillStyle = "#000000";
+    ctx.fill();
+    ctx.closePath();
 
-         // Store the pixel length in a global variable called path_length
-        const path_length = shortestDistance;
+    });
 
-        // Log the pixel length to the console
-        console.log("Pixel length of shortest path:", path_length);
+    // Draw the path as a red line
+    ctx.beginPath();
+    ctx.strokeStyle = "#FF0000";
+    ctx.lineWidth = 3;
 
-        const shortestDistanceResult = document.getElementById("totalDistanceClosest");
-        shortestDistanceResult.textContent = ((path_length*2)/54).toFixed(2);
+    for (let i = 0; i < path.length - 1; i++) {
+    const current = path[i];
+    const next = path[i+1];
+    ctx.moveTo(current.x, current.y);
+    ctx.lineTo(next.x, next.y);
+    }
 
-          // Initialize variables
-          let selectedVertex = null;
-          let lineStartX = null;
-          let lineStartY = null;
-          let lineEndX = null;
-          let lineEndY = null;
-          let allVerticesConnected = graph.checkAllVerticesConnected();
-          // Draw the initial graph
-          drawGraph(graph);
-          // Add event listeners
-          canvas.addEventListener("mousedown", handleMouseDown);
-          resetButton.addEventListener("click", handleResetButtonClick);
-          submitButton.addEventListener("click", handleResetButtonClick);
-          temp.addEventListener("click", handleResetButtonClick);
-        </script>
-      </body>
+    ctx.stroke();
+    ctx.closePath();
+    }
+
+    // Define adjacency relationships
+    heuristic.vertices.forEach((vertex) => {
+    const closestPoints = vertices
+        .filter((p) => p.id !== vertex.id)
+        .sort((a, b) => heuristic.calculateDistance(vertex, a) - heuristic.calculateDistance(vertex, b))
+        .slice(0, 2);
+
+    closestPoints.forEach((point) => {
+        const adjacentVertex = heuristic.map[point.id];
+        vertex.addAdjacent(adjacentVertex);
+    });
+    });
+
+    // Generate all possible paths and find the shortest one
+    const paths = generatePaths(heuristic);
+    let shortestPath = null;
+    let shortestDistance = Infinity;
+    paths.forEach((path) => {
+    const distance = getPathDistance(path);
+    if (distance < shortestDistance) {
+    shortestPath = path;
+    shortestDistance = distance;
+    }
+    });
+
+        // Store the pixel length in a global variable called path_length
+    const path_length = shortestDistance;
+
+    // Log the pixel length to the console
+    console.log("Pixel length of shortest path:", path_length);
+
+    const shortestDistanceResult = document.getElementById("totalDistanceClosest");
+    shortestDistanceResult.textContent = ((path_length*2)/54).toFixed(2);
+
+        // Initialize variables
+        let selectedVertex = null;
+        let lineStartX = null;
+        let lineStartY = null;
+        let lineEndX = null;
+        let lineEndY = null;
+        let allVerticesConnected = graph.checkAllVerticesConnected();
+        // Draw the initial graph
+        drawGraph(graph);
+        // Add event listeners
+        canvas.addEventListener("mousedown", handleMouseDown);
+        resetButton.addEventListener("click", handleResetButtonClick);
+        submitButton.addEventListener("click", handleResetButtonClick);
+        temp.addEventListener("click", handleResetButtonClick);
+    </script>
+    </body>
 </html>
