@@ -324,19 +324,30 @@
     }
     // Create the graph
     const graph = new Graph();
-    const v1 = new Vertex("A", 69, 69);
-    const v2 = new Vertex("B", 222, 122);
-    const v3 = new Vertex("C", 333, 125);
-    const v4 = new Vertex("D", 235, 464);
-    const v5 = new Vertex("E", 726, 123);
-    const v6 = new Vertex("F", 46, 75);
+    // Create vertices
+    const missionBay = new Vertex("A", 150, 200);
+    const oceanFW = new Vertex("B", 90, 200);
+    const belmontPark = new Vertex("C", 95, 220);
+    const seaworld = new Vertex("D", 165, 230);
+    const fashionV = new Vertex("E", 316, 225);
+    const oceanBeach = new Vertex("F", 100, 276);
+    // use these soon
+    // const bazaarDM = new Vertex("G", 150, 200);
+    // const whaleyHouse = new Vertex("H", 150, 200);
+    // const SDzoo = new Vertex("I", 46, 75);
+    // const elPrado = new Vertex("J", 46, 75);
+    // const balboaPark = new Vertex("K", 46, 75);
+    // const fleetSciCenter = new Vertex("L", 46, 75);
+    // const aerospaceMuseum = new Vertex("M", 46, 75);
+    // const museumofPhotographicArts = new Vertex("N", 46, 75);
     // Add vertices onto graph
-    graph.addVertex(v1);
-    graph.addVertex(v2);
-    graph.addVertex(v3);
-    graph.addVertex(v4);
-    graph.addVertex(v5);
-    graph.addVertex(v6);
+    graph.addVertex(missionBay);
+    graph.addVertex(oceanFW);
+    graph.addVertex(belmontPark);
+    graph.addVertex(seaworld);
+    graph.addVertex(fashionV);
+    graph.addVertex(oceanBeach);
+    // graph.addVertex(bazaarDM);
     // Initialize variables
     let selectedVertex = null;
     let lineStartX = null;
