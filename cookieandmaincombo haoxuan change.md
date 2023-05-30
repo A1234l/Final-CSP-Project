@@ -554,7 +554,7 @@
 <style>
   .banner{
     width: 100%;
-    min-height: 200% !important;
+    height: 200% !important;
     background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),url(homepg.jpg);
     background-size: cover;
     background-position: center !important ;
