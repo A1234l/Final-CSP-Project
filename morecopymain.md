@@ -67,16 +67,17 @@
 <body>
     <div id="finish-form">
       <h3 style="color:white;">Game over, please record your score!</h3>
+      <p style="color:white;">The shortest route is shown on the map with the (enter color) lines</p>
       <form action="javascript:userCreate()">
         <p><label>
             Username:
             <input type="text" name="username" id="username" placeholder="Enter username here" required>
         </label></p>
         <p><label>
-            Total Distance of your route: <span id="totalDistance">0.00</span>
+            Total Distance of your route: <span id="totalDistance">0.00</span>(need the miles)
         </label></p>
         <p><label>
-            Total Distance of closest route: <span id="totalDistanceClosest">0.00</span>
+            Total Distance of shortest route: <span id="totalDistanceClosest">0.00</span>
         </label></p>
         <p><label>
             Calculated score: <span id="score">0</span>
