@@ -384,8 +384,8 @@
             ctx.closePath();
             }
 
-        // Function to handle the mouse up event
-        function handleMouseUp(e) {
+    // Function to handle the mouse up event
+    function handleMouseUp(e) {
         const canvas = e.target;
         // Find the vertex that the user released the mouse on (if any)
         const vertex = graph.vertices.find((vertex) => {
@@ -443,23 +443,37 @@
         // hides finish button if lines are reset
         finishButton.style.display = "none";
         }
-        // Create the graph
-        const graph = new Graph();
-        // Define the vertices as an array of objects
-        let vertices = [
+    // Create the graph
+    const graph = new Graph();
+    // Define the vertices as an array of objects
+    let vertices = [
         { id: "A", x: 150, y: 200 },
         { id: "B", x: 90, y: 200 },
         { id: "C", x: 95, y: 220 },
         { id: "D", x: 165, y: 230 },
         { id: "E", x: 316, y: 225 },
         { id: "F", x: 100, y: 276 },
+        { id: "G", x: 235, y: 260 },
+        { id: "H", x: 265, y: 270 },
+        { id: "I", x: 360, y: 320 },
+        { id: "J", x: 370, y: 340 },
+        { id: "O", x: 330, y: 360 },
+        { id: "R", x: 310, y: 390 },
+        { id: "T", x: 360, y: 385 },
+        { id: "V", x: 360, y: 460 },
+        { id: "W", x: 270, y: 480 },
+        { id: "Z", x: 120, y: 530 },
+        { id: "MissionTrails", x: 640, y: 50},
+        { id: "Walmart", x: 500, y: 590},
+        { id: "Costco", x: 670, y: 190}
+        
         // Add more vertices here as needed
         ];
-        // Loop through the vertices array and create a new Vertex object for each one
-        for (const vertex of vertices) {
-        const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
-        graph.addVertex(newVertex);
-        }
+    // Loop through the vertices array and create a new Vertex object for each one
+    for (const vertex of vertices) {
+    const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
+    graph.addVertex(newVertex);
+    }
 
     // Example usage
     const heuristic = new Graph();
