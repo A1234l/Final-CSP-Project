@@ -221,148 +221,141 @@
     // Function to handle the mouse down event
     function handleMouseDown(e) {
       if (allVerticesConnected) {
-        return; // Return early if all vertices are already connected
-      }
-      const canvas = e.target;
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-      // Find the vertex that the user clicked on (if any)
-      const vertex = graph.vertices.find((vertex) => {
-        const dx = vertex.x - mouseX;
-        const dy = vertex.y - mouseY;
-        return dx * dx + dy * dy <= 100; // check if the click is within the vertex's radius
-      });
-      if (vertex) {
-        // Store the selected vertex and the starting position of the line
-        selectedVertex = vertex;
-        lineStartX = vertex.x;
-        lineStartY = vertex.y;
-        // Add mouse move and mouse up event listeners
-        canvas.addEventListener("mousemove", handleMouseMove);
-        canvas.addEventListener("mouseup", handleMouseUp);
-      }
-    }
-    // Function to handle the mouse move event
-    function handleMouseMove(e) {
-      const canvas = e.target;
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-      // Update the line end position
-      lineEndX = mouseX;
-      lineEndY = mouseY;
-      // Redraw the canvas
-      drawGraph(graph);
-      // Draw the temporary line from the selected vertex to the mouse position
-      const ctx = canvas.getContext("2d");
-      ctx.beginPath();
-      ctx.strokeStyle = "#0000FF";
-      ctx.lineWidth = 2;
-      ctx.moveTo(lineStartX, lineStartY);
-      ctx.lineTo(lineEndX, lineEndY);
-      ctx.stroke();
-      ctx.closePath();
-    }
-    // Function to handle the mouse up event
-    function handleMouseUp(e) {
-      const canvas = e.target;
-      // Find the vertex that the user released the mouse on (if any)
-      const vertex = graph.vertices.find((vertex) => {
-        const dx = vertex.x - lineEndX;
-        const dy = vertex.y - lineEndY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        return distance <= 20; // check if the release point is within 20 pixels of the vertex
-      });
-      if (vertex && !vertex.connected) {
-        // Connect the line to the snapped vertex
-        selectedVertex.addAdjacent(vertex);
-        vertex.addAdjacent(selectedVertex);
-        // Set the vertices as connected
-        selectedVertex.connected = true;
-        vertex.connected = true;
-        // Redraw the canvas with the updated graph and line connection
-        drawGraph(graph);
-        // Check if all vertices are connected
-        allVerticesConnected = graph.checkAllVerticesConnected();
-        console.log("All vertices connected:", allVerticesConnected);
-        // allows user to finish if all points connected
-        if(allVerticesConnected === true){
-          finishButton.style.display = "block";
-        }
-        // Calculate and update the total distance
-        const totalDistance = graph.calculateTotalDistance();
-        document.getElementById("totalDistance").textContent = totalDistance.toFixed(2);
-      }
-      // Reset the line positions and remove the event listeners
-      lineStartX = null;
-      lineStartY = null;
-      lineEndX = null;
-      lineEndY = null;
-      selectedVertex = null;
-      canvas.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("mouseup", handleMouseUp);
-    }
-    // Function to handle the reset button click event
-    function handleResetButtonClick() {
-      // Clear the canvas
-      const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Reset all vertices
-      for (const vertex of graph.vertices) {
-        vertex.connected = false;
-        vertex.adjacent = [];
-      }
-      // Reset the total distance
-      document.getElementById("totalDistance").textContent = "0.00";
-      // Redraw the empty canvas
-      drawGraph(graph);
-      // Reset the allVerticesConnected flag
-      allVerticesConnected = graph.checkAllVerticesConnected();
-      // hides finish button if lines are reset
-      finishButton.style.display = "none";
-    }
-    // Create the graph
-    const graph = new Graph();
-    // Create vertices
-    const missionBay = new Vertex("A", 150, 200);
-    const oceanFW = new Vertex("B", 90, 200);
-    const belmontPark = new Vertex("C", 95, 220);
-    const seaworld = new Vertex("D", 165, 230);
-    const fashionV = new Vertex("E", 316, 225);
-    const oceanBeach = new Vertex("F", 100, 276);
-    // use these soon
-    // const bazaarDM = new Vertex("G", 150, 200);
-    // const whaleyHouse = new Vertex("H", 150, 200);
-    // const SDzoo = new Vertex("I", 46, 75);
-    // const elPrado = new Vertex("J", 46, 75);
-    // const balboaPark = new Vertex("K", 46, 75);
-    // const fleetSciCenter = new Vertex("L", 46, 75);
-    // const aerospaceMuseum = new Vertex("M", 46, 75);
-    // const museumofPhotographicArts = new Vertex("N", 46, 75);
-    // Add vertices onto graph
-    graph.addVertex(missionBay);
-    graph.addVertex(oceanFW);
-    graph.addVertex(belmontPark);
-    graph.addVertex(seaworld);
-    graph.addVertex(fashionV);
-    graph.addVertex(oceanBeach);
-    // graph.addVertex(bazaarDM);
-    // Initialize variables
-    let selectedVertex = null;
-    let lineStartX = null;
-    let lineStartY = null;
-    let lineEndX = null;
-    let lineEndY = null;
-    let allVerticesConnected = graph.checkAllVerticesConnected();
-    // Draw the initial graph
-    drawGraph(graph);
-    // Add event listeners
-    canvas.addEventListener("mousedown", handleMouseDown);
-    resetButton.addEventListener("click", handleResetButtonClick);
-    submitButton.addEventListener("click", handleResetButtonClick);
-    temp.addEventListener("click", handleResetButtonClick);
-  </script>
-</body>
-</html>
+              return; // Return early if all vertices are already connected
+            }
+            const canvas = e.target;
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            // Find the vertex that the user clicked on (if any)
+            const vertex = graph.vertices.find((vertex) => {
+              const dx = vertex.x - mouseX;
+              const dy = vertex.y - mouseY;
+              return dx * dx + dy * dy <= 100; // check if the click is within the vertex's radius
+            });
+            if (vertex) {
+              // Store the selected vertex and the starting position of the line
+              selectedVertex = vertex;
+              lineStartX = vertex.x;
+              lineStartY = vertex.y;
+              // Add mouse move and mouse up event listeners
+              canvas.addEventListener("mousemove", handleMouseMove);
+              canvas.addEventListener("mouseup", handleMouseUp);
+            }
+          }
+          // Function to handle the mouse move event
+          function handleMouseMove(e) {
+            const canvas = e.target;
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            // Update the line end position
+            lineEndX = mouseX;
+            lineEndY = mouseY;
+            // Redraw the canvas
+            drawGraph(graph);
+            // Draw the temporary line from the selected vertex to the mouse position
+            const ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.strokeStyle = "#0000FF";
+            ctx.lineWidth = 2;
+            ctx.moveTo(lineStartX, lineStartY);
+            ctx.lineTo(lineEndX, lineEndY);
+            ctx.stroke();
+            ctx.closePath();
+          }
+          // Function to handle the mouse up event
+          function handleMouseUp(e) {
+            const canvas = e.target;
+            // Find the vertex that the user released the mouse on (if any)
+            const vertex = graph.vertices.find((vertex) => {
+              const dx = vertex.x - lineEndX;
+              const dy = vertex.y - lineEndY;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              return distance <= 20; // check if the release point is within 20 pixels of the vertex
+            });
+            if (vertex && !vertex.connected) {
+              // Connect the line to the snapped vertex
+              selectedVertex.addAdjacent(vertex);
+              vertex.addAdjacent(selectedVertex);
+              // Set the vertices as connected
+              selectedVertex.connected = true;
+              vertex.connected = true;
+              // Redraw the canvas with the updated graph and line connection
+              drawGraph(graph);
+              // Check if all vertices are connected
+              allVerticesConnected = graph.checkAllVerticesConnected();
+              console.log("All vertices connected:", allVerticesConnected);
+              // allows user to finish if all points connected
+              if(allVerticesConnected === true){
+                finishButton.style.display = "block";
+              }
+              // Calculate and update the total distance
+              const totalDistance = graph.calculateTotalDistance();
+              document.getElementById("totalDistance").textContent = totalDistance.toFixed(2);
+            }
+            // Reset the line positions and remove the event listeners
+            lineStartX = null;
+            lineStartY = null;
+            lineEndX = null;
+            lineEndY = null;
+            selectedVertex = null;
+            canvas.removeEventListener("mousemove", handleMouseMove);
+            canvas.removeEventListener("mouseup", handleMouseUp);
+          }
+          // Function to handle the reset button click event
+          function handleResetButtonClick() {
+            // Clear the canvas
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Reset all vertices
+            for (const vertex of graph.vertices) {
+              vertex.connected = false;
+              vertex.adjacent = [];
+            }
+            // Reset the total distance
+            document.getElementById("totalDistance").textContent = "0.00";
+            // Redraw the empty canvas
+            drawGraph(graph);
+            // Reset the allVerticesConnected flag
+            allVerticesConnected = graph.checkAllVerticesConnected();
+            // hides finish button if lines are reset
+            finishButton.style.display = "none";
+          }
+          // Create the graph
+          const graph = new Graph();
+          // Define the vertices as an array of objects
+          const vertices = [
+            { id: "A", x: 150, y: 200 },
+            { id: "B", x: 90, y: 200 },
+            { id: "C", x: 95, y: 220 },
+            { id: "D", x: 165, y: 230 },
+            { id: "E", x: 316, y: 225 },
+            { id: "F", x: 100, y: 276 },
+            // Add more vertices here as needed
+          ];
+
+          // Loop through the vertices array and create a new Vertex object for each one
+          for (const vertex of vertices) {
+            const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
+            graph.addVertex(newVertex);
+          }
+
+          // Initialize variables
+          let selectedVertex = null;
+          let lineStartX = null;
+          let lineStartY = null;
+          let lineEndX = null;
+          let lineEndY = null;
+          let allVerticesConnected = graph.checkAllVerticesConnected();
+          // Draw the initial graph
+          drawGraph(graph);
+          // Add event listeners
+          canvas.addEventListener("mousedown", handleMouseDown);
+          resetButton.addEventListener("click", handleResetButtonClick);
+          submitButton.addEventListener("click", handleResetButtonClick);
+          temp.addEventListener("click", handleResetButtonClick);
+        </script>
+      </body>
+      </html>
