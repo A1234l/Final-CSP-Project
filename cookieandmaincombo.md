@@ -48,7 +48,53 @@
     }
     #finish-form{
       text-align: center;
+      background-color: transparent;
     }
+
+    form {
+      background: transparent; /* Adjust the alpha value (0.5) to control the transparency */
+    }
+      
+    label {
+      display: block;
+      color: white;
+      font-family: Helvetica, arial;
+    }
+
+    p{
+      width: 100%;
+    }
+
+    #username{
+      background: transparent;
+      border: none;
+      outline: auto;
+      font-size: 1em;
+      padding:0 35px 0 5px;
+      color: white;
+    }
+
+    #form-submit-button{
+      display: block;
+      width: 200px;
+      padding: 15px 0;
+      text-align: center;
+      margin: 20px auto;
+      background: transparent;
+      border-radius: 25px;
+      border: 2px solid #009614;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.6s;
+      color: white;
+    }
+
+    #form-submit-button:hover{
+      background-color: #009614;
+    }
+
   </style>
   <div id="start-page">
     <div class="button-container">
@@ -92,7 +138,7 @@
       </form>
       <!-- Temporary button, remove later -->
       <div class="button-container">
-        <button id="temporary" onclick="userCreate()" class="gen-button">Temporary</button>
+        <button id="temporary" onclick="userCreate()" class="gen-button">Next</button>
       </div>
     </div>
   <div id="game-page">
