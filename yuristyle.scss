@@ -75,7 +75,7 @@
 }
 .carousel .card {
   scroll-snap-align: start;
-  height: 342px;
+  height: 500px;
   list-style: none;
   background: #fff;
   cursor: pointer;
@@ -120,4 +120,10 @@
 }
 p {
     font-size: small;
+}
+input {
+    margin-bottom: 20px;
+}
+form {
+    background-color: transparent;
 }
