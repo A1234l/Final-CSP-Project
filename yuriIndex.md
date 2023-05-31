@@ -169,7 +169,7 @@
             <h2>Costco</h2>
             <p style = "text-align: center;">Costco is a membership warehouse club, dedicated to bringing our members the best possible prices on quality brand-name merchandise</p>
             <form> 
-          <input id = "costco" type="checkbox">
+            <input id = "costco" type="checkbox">
           </form>
           </li>
       </ul>
@@ -261,6 +261,8 @@
       wrapper.addEventListener("mouseenter", () => clearTimeout(timeoutId));
       wrapper.addEventListener("mouseleave", autoPlay);
       </script>
-      <button id ="finish" style = "margin-left:830px; height: 60px; width: 100px;"> Finish </button>
   </body>
+  <div id="finish-button-container-menu" style="text-align: center;">
+    <button id ="finish" style = "margin: auto; height: 60px; width: 100%; max-width: 100px;">Finish</button>
+  </div>
 </html>
