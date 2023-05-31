@@ -74,13 +74,13 @@
             <input type="text" name="username" id="username" placeholder="Enter username here" required>
         </label></p>
         <p><label>
-            Total Distance of your route: <span id="totalDistance">0.00</span>(need the miles)
+            Total Distance of your route: <span id="totalDistance">0.00</span> miles
         </label></p>
         <p><label>
-            Total Distance of shortest route: <span id="totalDistanceClosest">0.00</span>
+            Total Distance of shortest route: <span id="totalDistanceClosest">0.00</span> miles
         </label></p>
         <p><label>
-            Calculated score: <span id="score">0</span>
+            Calculated score: <span id="scoring">0</span>
         </label></p>
         <p><label>
             Locations visited: <span id="locationList">NA</span>
@@ -112,6 +112,8 @@
     const finishForm = document.getElementById("finish-form");
     const submitButton = document.getElementById("form-submit-button");
     const temp = document.getElementById("temporary");
+    const totalDistanceDisplay = document.getElementById("totalDistance");
+    const scoreDisplay = document.getElementById("scoring");
     // Initially hides end page and game page and finish button
     endPage.style.display = "none";
     gamePage.style.display = "none";
@@ -129,6 +131,12 @@
         finishForm.style.display = "block";
         resetButton.style.display = "none";
         finishButton.style.display = "none";
+        // Draw the shortest path on the canvas
+        drawShortestPath(heuristic, shortestPath);
+        if(parseInt(shortestDistanceResult.innerHTML)>parseInt(totalDistanceDisplay.innerHTML)){
+            totalDistanceDisplay.textContent = "**error**";
+            scoreDisplay.textContent = "NA";
+        }
       }
       if(status === 3){
         startPage.style.display = "block";
@@ -168,27 +176,27 @@
       }
       // Function to check if all vertices are connected
       checkAllVerticesConnected() {
-  const visited = new Set(); // Set to store visited vertices
-  const stack = []; // Stack for DFS traversal
+        const visited = new Set(); // Set to store visited vertices
+        const stack = []; // Stack for DFS traversal
 
-  // Start DFS from the first vertex in the graph
-  stack.push(graph.vertices[0]);
+        // Start DFS from the first vertex in the graph
+        stack.push(graph.vertices[0]);
 
-  while (stack.length > 0) {
-    const vertex = stack.pop();
-    visited.add(vertex);
+        while (stack.length > 0) {
+          const vertex = stack.pop();
+          visited.add(vertex);
 
-    // Add all adjacent unvisited vertices to the stack
-    for (const adjacentVertex of vertex.adjacent) {
-      if (!visited.has(adjacentVertex)) {
-        stack.push(adjacentVertex);
-      }
+          // Add all adjacent unvisited vertices to the stack
+          for (const adjacentVertex of vertex.adjacent) {
+            if (!visited.has(adjacentVertex)) {
+              stack.push(adjacentVertex);
+            }
+          }
+        }
+
+      // Check if all vertices are visited
+      return visited.size === graph.vertices.length;
     }
-  }
-
-  // Check if all vertices are visited
-  return visited.size === graph.vertices.length;
-}
       // Function to calculate the Euclidean distance between two vertices
       calculateDistance(v1, v2) {
         const dx = v1.x - v2.x;
@@ -205,6 +213,90 @@
         }
         return totalDistance;
       }
+    }
+
+// Function to generate all possible paths that visit all vertices exactly once
+ function generatePaths(graph) {
+ const paths = [];
+ const visited = new Set();
+ 
+    function dfs(path) {
+    if (path.length === graph.vertices.length) {
+    paths.push(path);
+    return;
+    }
+
+    graph.vertices.forEach((vertex) => {
+    if (!visited.has(vertex)) {
+    visited.add(vertex);
+    dfs([...path, vertex]);
+    visited.delete(vertex);
+    }
+    });
+    }
+
+    graph.vertices.forEach((vertex) => {
+    visited.add(vertex);
+    dfs([vertex]);
+    visited.delete(vertex);
+    });
+
+    return paths;
+    }
+
+    // Dijkstra's algorithm implementation
+    function dijkstra(graph, start, end) {
+    const distances = {}; // object to store distances from start vertex to all other vertices
+    const previous = {}; // object to store previous vertex in the shortest path
+    const unvisited = new Set(); // set to store unvisited vertices
+
+    // Initialize distances and previous objects
+    graph.vertices.forEach((vertex) => {
+    distances[vertex.id] = Infinity;
+    previous[vertex.id] = null;
+    unvisited.add(vertex.id);
+    });
+
+    distances[start.id] = 0; // distance to start vertex is 0
+
+    while (unvisited.size > 0) {
+    let minId = null;
+
+    // Find the unvisited vertex with the smallest distance
+    unvisited.forEach((vertexId) => {
+    if (minId === null || distances[vertexId] < distances[minId]) {
+    minId = vertexId;
+    }
+    });
+
+    unvisited.delete(minId); // remove the vertex from the unvisited set
+
+    const current = graph.map[minId]; // use the map to access the vertex in constant time
+
+    if (current === end) {
+    break;
+    }
+
+    // Update distances and previous for each adjacent vertex
+    current.adjacent.forEach((neighbor) => {
+    const alt = distances[minId] + heuristic.calculateDistance(current, neighbor);
+
+    if (alt < distances[neighbor.id]) {
+    distances[neighbor.id] = alt;
+    previous[neighbor.id] = current.id;
+    }
+    });
+    }
+
+    const path = [];
+    let current = end;
+    while (current !== start) {
+    path.unshift(current);
+    current = graph.map[previous[current.id]];
+    }
+    path.unshift(start);
+
+    return path; // return the shortest path
     }
     // Function to draw the graph on the canvas
     function drawGraph(graph) {
@@ -306,7 +398,7 @@
               }
               // Calculate and update the total distance
               const totalDistance = graph.calculateTotalDistance();
-              document.getElementById("totalDistance").textContent = totalDistance.toFixed(2);
+              totalDistanceDisplay.textContent = (totalDistance/54).toFixed(2);
             }
             // Reset the line positions and remove the event listeners
             lineStartX = null;
@@ -340,26 +432,13 @@
           // Create the graph
           const graph = new Graph();
           // Define the vertices as an array of objects
-          const vertices = [
+          let vertices = [
             { id: "A", x: 150, y: 200 },
             { id: "B", x: 90, y: 200 },
             { id: "C", x: 95, y: 220 },
             { id: "D", x: 165, y: 230 },
             { id: "E", x: 316, y: 225 },
             { id: "F", x: 100, y: 276 },
-            { id: "G", x: 235, y: 260 },
-            { id: "H", x: 265, y: 270 },
-            { id: "I", x: 360, y: 320 },
-            { id: "J", x: 370, y: 340 },
-            { id: "O", x: 330, y: 360 },
-            { id: "R", x: 310, y: 390 },
-            { id: "T", x: 360, y: 385 },
-            { id: "V", x: 360, y: 460 },
-            { id: "W", x: 270, y: 480 },
-            { id: "Z", x: 120, y: 530 },
-            { id: "MissionTrails", x: 640, y: 50},
-            { id: "Walmart", x: 500, y: 590},
-            { id: "Costco", x: 670, y: 190}
             // Add more vertices here as needed
           ];
           // Loop through the vertices array and create a new Vertex object for each one
@@ -367,6 +446,90 @@
             const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
             graph.addVertex(newVertex);
           }
+
+        // Example usage
+        const heuristic = new Graph();
+        // Loop through the vertices array and create a new Vertex object for each one
+        for (const vertex of vertices) {
+            const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
+            heuristic.addVertex(newVertex);
+        }
+        // Function to calculate the total distance of heuristic path
+        function getPathDistance(path) {
+        let distance = 0;
+        for (let i = 0; i < path.length - 1; i++) {
+        distance += heuristic.calculateDistance(path[i], path[i+1]);
+        }
+        return distance;
+        }
+
+        // Function to draw the shortest path on the canvas
+        function drawShortestPath(graph, path) {
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
+
+        // Draw all vertices as white circles
+        graph.vertices.forEach((vertex) => {
+        ctx.beginPath();
+        ctx.arc(vertex.x, vertex.y, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fill();
+        ctx.closePath();
+
+        });
+
+        // Draw the path as a red line
+        ctx.beginPath();
+        ctx.strokeStyle = "#FF0000";
+        ctx.lineWidth = 3;
+
+        for (let i = 0; i < path.length - 1; i++) {
+        const current = path[i];
+        const next = path[i+1];
+        ctx.moveTo(current.x, current.y);
+        ctx.lineTo(next.x, next.y);
+        }
+
+        ctx.stroke();
+        ctx.closePath();
+        }
+
+        // Define adjacency relationships
+        heuristic.vertices.forEach((vertex) => {
+        const closestPoints = vertices
+            .filter((p) => p.id !== vertex.id)
+            .sort((a, b) => heuristic.calculateDistance(vertex, a) - heuristic.calculateDistance(vertex, b))
+            .slice(0, 2);
+
+        closestPoints.forEach((point) => {
+            const adjacentVertex = heuristic.map[point.id];
+            vertex.addAdjacent(adjacentVertex);
+        });
+        });
+
+        // Generate all possible paths and find the shortest one
+        const paths = generatePaths(heuristic);
+        let shortestPath = null;
+        let shortestDistance = Infinity;
+        paths.forEach((path) => {
+        const distance = getPathDistance(path);
+        if (distance < shortestDistance) {
+        shortestPath = path;
+        shortestDistance = distance;
+        }
+        });
+
+         // Store the pixel length in a global variable called path_length
+        const path_length = shortestDistance;
+
+        // Log the pixel length to the console
+        console.log("Pixel length of shortest path:", path_length);
+
+        const shortestDistanceResult = document.getElementById("totalDistanceClosest");
+        shortestDistanceResult.textContent = ((path_length*2)/54).toFixed(2);
+
           // Initialize variables
           let selectedVertex = null;
           let lineStartX = null;
@@ -383,4 +546,4 @@
           temp.addEventListener("click", handleResetButtonClick);
         </script>
       </body>
-      </html>
+</html>

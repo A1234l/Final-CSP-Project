@@ -551,3 +551,12 @@
         </script>
       </body>
 </html>
+<style>
+  .banner{
+    width: 100%;
+    height: 200% !important;
+    background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),url(homepg.jpg);
+    background-size: cover;
+    background-position: center !important ;
+  }
+</style>
