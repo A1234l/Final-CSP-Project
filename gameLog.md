@@ -1,10 +1,9 @@
 <html>
 <head>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 <body>
-# (Game Log records all data down order from most recent to least recent)
-
+    <p>(Game Log records all data down order from most recent to least recent)</p>
 </body>
 <script>
 const url="http://206.188.196.247:8086//api/leaderboardUser/get";
