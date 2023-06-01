@@ -11,7 +11,7 @@
     <th>Distance</th>
     <th>Score</th>
     <th>Date</th>
-    <th>Location</th>
+    <th>Locations</th>
   </tr>
   <tbody id="get">
   </tbody>
@@ -88,13 +88,13 @@
     const tot_distance = document.createElement("td");
     const score = document.createElement("td");
     const dateG = document.createElement("td");
-    const locations = document.createElement("td");
+    const locations = document.createElement("td")
   
     // obtain data that is specific to the API
     name.innerHTML = data.name; 
     tot_distance.innerHTML = data.tot_distance; 
     score.innerHTML = data.score; 
-    dateG.innerHTML = data.dateG;
+    dateG.innerHTML = data.dateG; 
     locations.innerHTML = data.locations;
 
     // add HTML to container
@@ -102,8 +102,7 @@
     tr.appendChild(tot_distance);
     tr.appendChild(score);
     tr.appendChild(dateG);
-    tr.appendChild(locations)
-
+    tr.appendChild(locations);
 
     resultContainer.appendChild(tr);
   } 
