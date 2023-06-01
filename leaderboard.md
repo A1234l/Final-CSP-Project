@@ -1,10 +1,6 @@
 <style>
-  #title_leaderboard{
+  #title_{
     font-size: 150%;
-  }
-
-  *{
-    color: white;
   }
 </style>
 <h1>(Leaderboard records down the top scorers and omits all other data)</h1>
@@ -110,7 +106,7 @@
 
 
     resultContainer.appendChild(tr);
-  }
+  } 
 </script>
 <style>
   .banner{
