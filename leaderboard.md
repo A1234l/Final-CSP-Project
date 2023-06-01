@@ -12,18 +12,18 @@
     <th>Score</th>
     <th>Date</th>
   </tr>
-  <tbody id="MaxScore">
+  <tbody id="get">
   </tbody>
 </table>
 
 
 <script>
  // prepare HTML result container for new output
-  const resultContainer = document.getElementById("MaxScore");
+  const resultContainer = document.getElementById("get");
   // prepare URL's to allow easy switch from deployment and localhost
   //const url = "http://localhost:8086/api/users"
-  const url = "https://pythonalflask.tk/api/leaders"
-  const read_fetch = url + '/MaxScore';
+  const url = "http://206.188.196.247:8086/api/leaderboardUser"
+  const read_fetch = url + '/get';
 
   // Load users on page entry
   read_users();
@@ -84,15 +84,22 @@
   function add_row(data) {
     const tr = document.createElement("tr");
     const username = document.createElement("td");
+    const distance = document.createElement("td");
     const score = document.createElement("td");
+    const date = document.createElement("td");
   
     // obtain data that is specific to the API
     username.innerHTML = data.username; 
+    distance.innerHTML = data.distance; 
     score.innerHTML = data.score; 
+    date.innerHTML = data.date; 
 
     // add HTML to container
     tr.appendChild(username);
+    tr.appendChild(distance);
     tr.appendChild(score);
+    tr.appendChild(date);
+
 
     resultContainer.appendChild(tr);
   }
