@@ -1,4 +1,3 @@
-<html>
 <head>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 </head>
@@ -13,4 +12,3 @@ fetch(url)
 })
 console.log(data);
 </script>
-</html>
