@@ -1,6 +1,10 @@
 <style>
-  #title_{
+  #title_leaderboard{
     font-size: 150%;
+  }
+
+  *{
+    color: white;
   }
 </style>
 <h1>(Leaderboard records down the top scorers and omits all other data)</h1>
@@ -11,6 +15,7 @@
     <th>Distance</th>
     <th>Score</th>
     <th>Date</th>
+    <th>Location</th>
   </tr>
   <tbody id="get">
   </tbody>
@@ -83,22 +88,25 @@
 
   function add_row(data) {
     const tr = document.createElement("tr");
-    const username = document.createElement("td");
-    const distance = document.createElement("td");
+    const name = document.createElement("td");
+    const tot_distance = document.createElement("td");
     const score = document.createElement("td");
-    const date = document.createElement("td");
+    const dateG = document.createElement("td");
+    const locations = document.createElement("td");
   
     // obtain data that is specific to the API
-    username.innerHTML = data.username; 
-    distance.innerHTML = data.distance; 
+    name.innerHTML = data.name; 
+    tot_distance.innerHTML = data.tot_distance; 
     score.innerHTML = data.score; 
-    date.innerHTML = data.date; 
+    dateG.innerHTML = data.dateG;
+    locations.innerHTML = data.locations;
 
     // add HTML to container
-    tr.appendChild(username);
-    tr.appendChild(distance);
+    tr.appendChild(name);
+    tr.appendChild(tot_distance);
     tr.appendChild(score);
-    tr.appendChild(date);
+    tr.appendChild(dateG);
+    tr.appendChild(locations)
 
 
     resultContainer.appendChild(tr);
