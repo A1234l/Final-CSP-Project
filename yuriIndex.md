@@ -265,4 +265,86 @@
   <div id="finish-button-container-menu" style="text-align: center;">
     <button id ="finish" style = "margin: auto; height: 60px; width: 100%; max-width: 100px;">Finish</button>
   </div>
+  <script>
+    function checkSelected(){
+      // variables for all the inputs
+      var missionbay = document.getElementById("missionbay");
+      var OceanFrontWalk = document.getElementById("OceanFrontWalk");
+      var belmontpark = document.getElementById("Belmont");
+      var seaworld = document.getElementById("seaworld");
+      var fashionvalley = document.getElementById("fashionvalley");
+      var oceanbeach = document.getElementById("oceanbeach");
+      var bazaar = document.getElementById("bazaar");
+      var whaley = document.getElementById("whaley");
+      var zoo = document.getElementById("zoo");
+      var prado = document.getElementById("prado");
+      var museum = document.getElementById("museum");
+      var midway = document.getElementById("midway");
+      var gaslamp = document.getElementById("gaslamp");
+      var bridge = document.getElementById("bridge");
+      var beach = document.getElementById("beach");
+      var pointloma = document.getElementById("pointloma");
+      var missiontrails = document.getElementById("missiontrails");
+      var walmart = document.getElementById("walmart");
+      var costco = document.getElementById("costco");
+
+      // list of selected locations
+      var locationSelected = []
+
+      if (missionbay.checked == true){
+        locationSelected.push(missionbay)
+      }
+      if (OceanFrontWalk.checked == true){
+        locationSelected.push(OceanFrontWalk)
+      }
+      if (belmontpark.checked == true){
+        locationSelected.push(belmontpark)
+      }
+      if (seaworld.checked == true){
+        locationSelected.push(seaworld)
+      }
+      if (fashionvalley.checked == true){
+        locationSelected.push(fashionvalley)
+      }
+      if (oceanbeach.checked == true){
+        locationSelected.push(oceanbeach)
+      }
+      if (bazaar.checked == true){
+        locationSelected.push(bazaar)
+      }
+      if (whaley.checked == true){
+        locationSelected.push(whaley)
+      }
+      if (zoo.checked == true){
+        locationSelected.push(zoo)
+      }
+      if (prado.checked == true){
+        locationSelected.push(prado)
+      }
+      if (museum.checked == true){
+        locationSelected.push(museum)
+      }
+      if (midway.checked == true){
+        locationSelected.push(midway)
+      }
+      if (gaslamp.checked == true){
+        locationSelected.push(gaslamp)
+      }
+      if (beach.checked == true){
+        locationSelected.push(beach)
+      }
+      if (pointloma.checked == true){
+        locationSelected.push(pointloma)
+      }
+      if (missiontrails.checked == true){
+        locationSelected.push(missiontrails)
+      }
+      if (walmart.checked == true){
+        locationSelected.push(walmart)
+      }
+      if (costco.checked == true){
+        locationSelected.push(costco)
+      }
+    }
+  </script>
 </html>
