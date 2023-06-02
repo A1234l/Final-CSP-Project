@@ -263,7 +263,6 @@
       </script>
   </body>
   <div id="finish-button-container-menu" style="text-align: center;">
-    <button id ="finish" style = "margin: auto; height: 60px; width: 100%; max-width: 100px;">Finish</button>
   </div>
   <script>
     function checkSelected(){
@@ -345,6 +344,16 @@
       if (costco.checked == true){
         locationSelected.push(costco)
       }
+      if (locationSelected.length <= 10 && locationSelected.length >= 2){
+        console.log("Sucess")
+        console.log(locationSelected)
+      }
+      else {
+        console.log("You've selected an invalid amount of points")
+        console.log(locationSelected)
+        location.reload()
+      }
     }
   </script>
+  <button onclick = "checkSelected()" id ="finish" style = "margin: auto; height: 60px; width: 100%; max-width: 100px;">Submit Points</button>
 </html>
