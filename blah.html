@@ -1,0 +1,101 @@
+<html>
+    
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <style>
+        /* CSS-style selector maps to table id or other id's in HTML */
+    </style>
+</head>
+<body>
+    <table id="jsonTable">
+        <thead id="jsonHead">
+            <tr>
+                <th>Username</th>
+                <th>Distance</th>
+                <th>Score</th>
+                <th>Date</th>
+                <th>Locations</th>
+            </tr>
+        </thead>
+        <tbody id="jsonRow"></tbody>
+    </table>
+
+    <script>
+        class Leaderboard {
+            constructor(name, distance, score, date, locations) {
+                this.name = name;
+                this.distance = distance;
+                this.score = score;
+                this.date = date;
+                this.locations = locations;
+            }
+
+            get() {
+                const obj = {
+                    name: this.name,
+                    distance: this.distance,
+                    score: this.score,
+                    date: this.date,
+                    locations: this.locations
+                };
+                const json = JSON.stringify(obj);
+                return json;
+            }
+
+            logIt() {
+                console.info(this);
+                console.log("Leaderboard json");
+                console.log(this.get());
+            }
+        }
+
+        class LeaderboardCollection {
+            constructor(leaderboards, group) {
+                this.leaderboards = [...leaderboards]; // ... spread option
+                this.json = '{' + group + "_leaderboard:" + '[' + this.leaderboards.map(leaderboard => leaderboard.get()) + ']}';
+            }
+
+            displayCollection() {
+                console.log("Leaderboard Collection object in JSON");
+                console.log(this.json);
+            }
+        }
+
+        function constructLeaderboards() {
+            const leaderboards = [
+                new Leaderboard("Chester", "17.58", "1600", "2023-28-05", ["Balboa Park", "Firehouse", "Legoland"]),
+                new Leaderboard("Chase", "10.8", "800", "2023-28-05", ["Balboa Park", "Legoland"]),
+                new Leaderboard("Frank", "17.58", "400", "2023-28-05", ["Balboa Park", "Sea World", "Whaley house"]),
+                new Leaderboard("Tirth", "17.58", "1600", "2023-24-05", ["Balboa Park", "Sea World", "Legoland"]),
+                new Leaderboard("Jishnu", "21.58", "1600", "2023-24-05", ["San Diego Zoo", "Sea World", "Legoland"]),
+                new Leaderboard("Alan", "17.58", "1600", "2023-25-05", ["Balboa Park", "San Diego Zoo", "Legoland"]),
+                new Leaderboard("Yuri", "17.58", "1600", "2023-25-05", ["Water Park", "Firehouse", "San Diego Zoo"]),
+                new Leaderboard("Haoxuan", "17.58", "1600", "2023-26-05", ["Water Park", "Aquarium", "Legoland"]),
+                new Leaderboard("Lisa", "17.58", "1200", "2023-27-05", ["Picnic Park", "Firehouse", "Balboa Park"]),
+                new Leaderboard("Van", "17.58", "883", "2023-18-05", ["Balboa Park", "Lighthouse", "Legoland"]),
+                new Leaderboard("Vincent", "17.58", "289", "2023-10-05", ["Lighthouse", "Firehouse", "San Diego Zoo"]),
+                new Leaderboard("Zane", "17.58", "1528", "2023-09-05", ["Balboa Park", "Lighthouse", "Legoland"])
+            ];
+
+            return new LeaderboardCollection(leaderboards, "Leaderboard");
+        }
+
+        const leaderboardDatabase = constructLeaderboards();
+
+        for (var row of leaderboardDatabase.leaderboards) {
+            $('#jsonRow').append('<tr><td>' +
+                row.name + '</td><td>' +
+                row.distance + '</td><td>' +
+                row.score + '</td><td>' +
+                row.date + '</td><td>' +
+                row.locations.join(", ") + '</td></tr>');
+        }
+
+        $(document).ready(function () {
+            $("#jsonTable").DataTable();
+        });
+    </script>
+</body>
+</html>
