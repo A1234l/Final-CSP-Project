@@ -20,7 +20,7 @@
                     </div>
                     <button>Log in</button>
                     <div class="register">
-                        <p>Don't have an account? <a href="https://a1234l.github.io/Final-CSP-Project/signin">Register</a></p>
+                        <p>Don't have an account? <a href="https://a1234l.github.io/Final-CSP-Project/signup">Register</a></p>
                     </div>
                 </form>
             </div>
