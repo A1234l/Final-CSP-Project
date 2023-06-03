@@ -591,7 +591,7 @@
     const distance = getPathDistance(path);
     if (distance < shortestDistance) {
     shortestPath = path;
-    shortestDistance = distance;
+    shortestDistance= distance;
     }
     });
 
