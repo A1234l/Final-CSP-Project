@@ -267,86 +267,114 @@
   <script>
     function checkSelected(){
       // variables for all the inputs
-      var missionbay = document.getElementById("missionbay");
-      var OceanFrontWalk = document.getElementById("OceanFrontWalk");
-      var belmontpark = document.getElementById("Belmont");
-      var seaworld = document.getElementById("seaworld");
-      var fashionvalley = document.getElementById("fashionvalley");
-      var oceanbeach = document.getElementById("oceanbeach");
-      var bazaar = document.getElementById("bazaar");
-      var whaley = document.getElementById("whaley");
-      var zoo = document.getElementById("zoo");
-      var prado = document.getElementById("prado");
-      var museum = document.getElementById("museum");
-      var midway = document.getElementById("midway");
-      var gaslamp = document.getElementById("gaslamp");
-      var bridge = document.getElementById("bridge");
-      var beach = document.getElementById("beach");
-      var pointloma = document.getElementById("pointloma");
-      var missiontrails = document.getElementById("missiontrails");
-      var walmart = document.getElementById("walmart");
-      var costco = document.getElementById("costco");
+      const missionbay = document.getElementById("missionbay");
+      const OceanFrontWalk = document.getElementById("OceanFrontWalk");
+      const belmontpark = document.getElementById("Belmont");
+      const seaworld = document.getElementById("seaworld");
+      const fashionvalley = document.getElementById("fashionvalley");
+      const oceanbeach = document.getElementById("oceanbeach");
+      const bazaar = document.getElementById("bazaar");
+      const whaley = document.getElementById("whaley");
+      const zoo = document.getElementById("zoo");
+      const prado = document.getElementById("prado");
+      const museum = document.getElementById("museum");
+      const midway = document.getElementById("midway");
+      const gaslamp = document.getElementById("gaslamp");
+      const bridge = document.getElementById("bridge");
+      const beach = document.getElementById("beach");
+      const pointloma = document.getElementById("pointloma");
+      const missiontrails = document.getElementById("missiontrails");
+      const walmart = document.getElementById("walmart");
+      const costco = document.getElementById("costco");
 
       // list of selected locations
       var locationSelected = []
 
+      // list of location to points
+      let vertices = [
+        { id: "missionbay", x: 150, y: 200 },
+        { id: "OceanFrontWalk", x: 90, y: 200 },
+        // { id: "Belmont", x: 95, y: 220 },
+        // { id: "seaworld", x: 165, y: 230 },
+        // { id: "fashionvalley", x: 316, y: 225 },
+        // { id: "oceanbeach", x: 100, y: 276 },
+        // { id: "bazaar", x: 235, y: 260 },
+        // { id: "whaley", x: 265, y: 270 },
+        // { id: "zoo", x: 360, y: 320 }, 
+        // { id: "prado", x: 370, y: 340 },
+        // { id: "museum", x: 330, y: 360 },
+        // { id: "midway", x: 310, y: 390 },
+        // { id: "gaslamp", x: 360, y: 385 },
+        // { id: "bridge", x: 360, y: 460 },
+        // { id: "beach", x: 270, y: 480 },
+        // { id: "pointloma", x: 120, y: 530 },
+        // { id: "MissionTrails", x: 640, y: 50},
+        // { id: "Walmart", x: 500, y: 590},
+        // { id: "Costco", x: 670, y: 190}
+        
+        // Add more vertices here as needed
+        ];
+
+      // checks for if checked
       if (missionbay.checked == true){
-        locationSelected.push(missionbay)
+        locationSelected.push({id: "missionbay", x: 150, y: 200 })
       }
       if (OceanFrontWalk.checked == true){
-        locationSelected.push(OceanFrontWalk)
+        locationSelected.push({ id: "OceanFrontWalk", x: 90, y: 200 })
       }
       if (belmontpark.checked == true){
-        locationSelected.push(belmontpark)
+        locationSelected.push({id: "Belmont", x: 95, y: 220 })
       }
       if (seaworld.checked == true){
-        locationSelected.push(seaworld)
+        locationSelected.push({id: "seaworld", x: 165, y: 230 })
       }
       if (fashionvalley.checked == true){
-        locationSelected.push(fashionvalley)
+        locationSelected.push({id: "fashionvalley", x: 316, y: 225 })
       }
       if (oceanbeach.checked == true){
-        locationSelected.push(oceanbeach)
+        locationSelected.push({id: "oceanbeach", x: 100, y: 276 })
       }
       if (bazaar.checked == true){
-        locationSelected.push(bazaar)
+        locationSelected.push({id: "bazaar", x: 235, y: 260 })
       }
       if (whaley.checked == true){
-        locationSelected.push(whaley)
+        locationSelected.push({id: "whaley", x: 265, y: 270 })
       }
       if (zoo.checked == true){
-        locationSelected.push(zoo)
+        locationSelected.push({id: "zoo", x: 360, y: 320 })
       }
       if (prado.checked == true){
-        locationSelected.push(prado)
+        locationSelected.push({id: "prado", x: 370, y: 340 })
       }
       if (museum.checked == true){
-        locationSelected.push(museum)
+        locationSelected.push({id: "museum", x: 330, y: 360 })
       }
       if (midway.checked == true){
-        locationSelected.push(midway)
+        locationSelected.push({id: "midway", x: 310, y: 390 })
       }
       if (gaslamp.checked == true){
-        locationSelected.push(gaslamp)
+        locationSelected.push({id: "gaslamp", x: 360, y: 385 })
       }
       if (beach.checked == true){
-        locationSelected.push(beach)
+        locationSelected.push({id: "beach", x: 270, y: 480 })
       }
       if (pointloma.checked == true){
-        locationSelected.push(pointloma)
+        locationSelected.push({id: "pointloma", x: 120, y: 530 })
       }
       if (missiontrails.checked == true){
-        locationSelected.push(missiontrails)
+        locationSelected.push({id: "MissionTrails", x: 640, y: 50})
       }
       if (walmart.checked == true){
-        locationSelected.push(walmart)
+        locationSelected.push({id: "Walmart", x: 500, y: 590})
       }
       if (costco.checked == true){
-        locationSelected.push(costco)
+        locationSelected.push({ id: "Costco", x: 670, y: 190})
       }
       if (locationSelected.length <= 10 && locationSelected.length >= 2){
         console.log("Sucess")
-        console.log(locationSelected)
+        vertices.length = 0
+        vertices = locationSelected
+        console.log(vertices)
       }
       else {
         console.log("You've selected an invalid amount of points")
