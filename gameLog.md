@@ -17,7 +17,7 @@ function updateLeaderboard() {
     console.log('Updating leaderboard...');
 
     // Make the asynchronous GET request to retrieve leaderboard data from the API
-    $.getJSON('http://172.28.82.34:8086/api/leaderboardUser')
+    $.getJSON('http://172.28.82.34:8086/api/leaderboardUser/get')
         .done(function (data) {
             // Clear the current leaderboard on update
             $('#recentGames').empty();
@@ -49,7 +49,7 @@ function updateLeaderboard() {
                     '<td>' + totalDistance + '</td>' +
                     '</tr>';
 
-                $('#leaderboard').append(row);
+                $('#recentGames').append(row);
             });
 
             console.log('Leaderboard updated.');
@@ -59,5 +59,5 @@ function updateLeaderboard() {
         });
 }
 
-// setInterval(updateLeaderboard, 1000);
+updateLeaderboard();
 </script>
