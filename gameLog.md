@@ -12,62 +12,52 @@
 </table>
 
 <script>
-const url = "http://206.188.196.247:8086/api/leaderboardUser"
-  const read_fetch = url + '/get';
+// Function to update the leaderboard
+function updateLeaderboard() {
+    console.log('Updating leaderboard...');
 
-  // Load users on page entry
-  read_users();
+    // Make the asynchronous GET request to retrieve leaderboard data from the API
+    $.getJSON('http://172.28.82.34:8086/api/leaderboardUser')
+        .done(function (data) {
+            // Clear the current leaderboard on update
+            $('#recentGames').empty();
 
+            // Add labels to the leaderboard table
+            var labelsRow = '<tr>' +
+                '<th>Name</th>' +
+                '<th>Score</th>' +
+                '<th>Date</th>' +
+                '<th>Locations</th>' +
+                '<th>Total Distance</th>' +
+                '</tr>';
 
-  // Display User Table, data is fetched from Backend Database
-  function read_users() {
-    // prepare fetch options
-    const read_options = {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'omit', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    };
+            $('#recentGames').append(labelsRow);
 
-    // fetch the data from API
-    fetch(read_fetch, read_options)
-      // response is a RESTful "promise" on any successful fetch
-      .then(response => {
-        // check for response errors
-        if (response.status !== 200) {
-            const errorMsg = 'Database read error: ' + response.status;
-            console.log(errorMsg);
-            const tr = document.createElement("tr");
-            const td = document.createElement("td");
-            td.innerHTML = errorMsg;
-            tr.appendChild(td);
-            resultContainer.appendChild(tr);
-            return;
-        }
-        // valid response will have json data
-      response.json().then(data => {
-          console.log(data);
-          data.sort(function(a, b) {
-            return b.score - a.score;
-          });
-        for (let i = 0; i < data.length; i++) {
-          const row = data[i];
-          console.log(row);
-          add_row(row);
-          }
+            // Adds the new data to the leaderboard from the API response
+            data.forEach(function (entry) {
+                var name = entry.name;
+                var score = entry.score;
+                var date = entry.dateG;
+                var locations = entry.locations.list.join(', ');
+                var totalDistance = entry.tot_distance;
+
+                var row = '<tr>' +
+                    '<td>' + name + '</td>' +
+                    '<td>' + score + '</td>' +
+                    '<td>' + date + '</td>' +
+                    '<td>' + locations + '</td>' +
+                    '<td>' + totalDistance + '</td>' +
+                    '</tr>';
+
+                $('#leaderboard').append(row);
+            });
+
+            console.log('Leaderboard updated.');
         })
-    })
-    // catch fetch errors (ie ACCESS to server blocked)
-    .catch(err => {
-      console.error(err);
-      const tr = document.createElement("tr");
-      const td = document.createElement("td");
-      td.innerHTML = err;
-      tr.appendChild(td);
-      resultContainer.appendChild(tr);
-    });
-  }
+        .fail(function (error) {
+            console.log('Error:', error);
+        });
+}
+
+// setInterval(updateLeaderboard, 1000);
 </script>
