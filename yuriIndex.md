@@ -315,71 +315,91 @@
         // Add more vertices here as needed
         ];
 
+      let locationNames = [];
+
       // checks for if checked
       if (missionbay.checked == true){
-        locationSelected.push({id: "missionbay", x: 150, y: 200 })
+        locationSelected.push({id: "missionbay", x: 150, y: 200 });
+        locationNames.push("Mission Bay");
       }
       if (OceanFrontWalk.checked == true){
-        locationSelected.push({ id: "OceanFrontWalk", x: 90, y: 200 })
+        locationSelected.push({ id: "OceanFrontWalk", x: 90, y: 200 });
+        locationNames.push("Ocean Front Walk");
       }
       if (belmontpark.checked == true){
-        locationSelected.push({id: "Belmont", x: 95, y: 220 })
+        locationSelected.push({id: "Belmont", x: 95, y: 220 });
+        locationNames.push("Belmont Park");
       }
       if (seaworld.checked == true){
-        locationSelected.push({id: "seaworld", x: 165, y: 230 })
+        locationSelected.push({id: "seaworld", x: 165, y: 230 });
+        locationNames.push("Sea World");
       }
       if (fashionvalley.checked == true){
-        locationSelected.push({id: "fashionvalley", x: 316, y: 225 })
+        locationSelected.push({id: "fashionvalley", x: 316, y: 225 });
+        locationNames.push("Fashion Valley");
       }
       if (oceanbeach.checked == true){
-        locationSelected.push({id: "oceanbeach", x: 100, y: 276 })
+        locationSelected.push({id: "oceanbeach", x: 100, y: 276 });
+        locationNames.push("Ocean Beach");
       }
       if (bazaar.checked == true){
-        locationSelected.push({id: "bazaar", x: 235, y: 260 })
+        locationSelected.push({id: "bazaar", x: 235, y: 260 });
+        locationNames.push("Bazaar Del Mundo");
       }
       if (whaley.checked == true){
-        locationSelected.push({id: "whaley", x: 265, y: 270 })
+        locationSelected.push({id: "whaley", x: 265, y: 270 });
+        locationNames.push("Whaley House");
       }
       if (zoo.checked == true){
-        locationSelected.push({id: "zoo", x: 360, y: 320 })
+        locationSelected.push({id: "zoo", x: 360, y: 320 });
+        locationNames.push("San Diego Zoo");
       }
       if (prado.checked == true){
-        locationSelected.push({id: "prado", x: 370, y: 340 })
+        locationSelected.push({id: "prado", x: 370, y: 340 });
+        locationNames.push("Prado");
       }
       if (museum.checked == true){
-        locationSelected.push({id: "museum", x: 330, y: 360 })
+        locationSelected.push({id: "museum", x: 330, y: 360 });
+        locationNames.push("Fire House Museum");
       }
       if (midway.checked == true){
-        locationSelected.push({id: "midway", x: 310, y: 390 })
+        locationSelected.push({id: "midway", x: 310, y: 390 });
+        locationNames.push("USS Midway Museum");
       }
       if (gaslamp.checked == true){
-        locationSelected.push({id: "gaslamp", x: 360, y: 385 })
+        locationSelected.push({id: "gaslamp", x: 360, y: 385 });
+        locationNames.push("Gaslamp Quarter");
       }
       if (beach.checked == true){
-        locationSelected.push({id: "beach", x: 270, y: 480 })
+        locationSelected.push({id: "beach", x: 270, y: 480 });
+        locationNames.push("Ocean Beach");
       }
       if (pointloma.checked == true){
-        locationSelected.push({id: "pointloma", x: 120, y: 530 })
+        locationSelected.push({id: "pointloma", x: 120, y: 530 });
+        locationNames.push("Point Loma Light House");
       }
       if (missiontrails.checked == true){
-        locationSelected.push({id: "MissionTrails", x: 640, y: 50})
+        locationSelected.push({id: "MissionTrails", x: 640, y: 50});
+        locationNames.push("Mission Trails");
       }
       if (walmart.checked == true){
-        locationSelected.push({id: "Walmart", x: 500, y: 590})
+        locationSelected.push({id: "Walmart", x: 500, y: 590});
+        locationNames.push("Walmart");
       }
       if (costco.checked == true){
-        locationSelected.push({ id: "Costco", x: 670, y: 190})
+        locationSelected.push({ id: "Costco", x: 670, y: 190});
+        locationNames.push("Costco");
       }
       if (locationSelected.length <= 10 && locationSelected.length >= 2){
-        console.log("Sucess")
-        vertices.length = 0
-        vertices = locationSelected
-        console.log(vertices)
+        console.log("Sucess");
+        vertices.length = 0;
+        vertices = locationSelected;
+        console.log(vertices);
       }
       else {
-        console.log("You've selected an invalid amount of points")
-        console.log(locationSelected)
-        location.reload()
+        console.log("You've selected an invalid amount of points");
+        console.log(locationSelected);
+        location.reload();
       }
     }
   </script>
