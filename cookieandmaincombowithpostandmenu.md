@@ -199,8 +199,7 @@
         }
       }
       if(status === 3){
-        startPage.style.display = "block";
-        endPage.style.display = "none";
+        window.location.reload();
       }
     }
 
@@ -656,8 +655,6 @@
         vertex.addAdjacent(adjacentVertex);
     });
     });
-
-
 
         // Initialize variables
         let selectedVertex = null;
