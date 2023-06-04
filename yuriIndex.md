@@ -288,7 +288,7 @@
       const costco = document.getElementById("costco");
 
       // list of selected locations
-      var locationSelected = []
+      let locationSelected = []
 
       // list of location to points
       let vertices = [
