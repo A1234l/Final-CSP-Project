@@ -176,12 +176,6 @@
         startPage.style.display = "none";
         menuPage.style.display = "block";
       }
-      if(status === 4){
-        menuPage.style.display = "none";
-        gamePage.style.display = "block";
-        resetButton.style.display = "block";
-        finishButton.style.display = "none";
-      }
       if(status === 2){
         finishForm.style.display = "block";
         resetButton.style.display = "none";

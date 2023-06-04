@@ -395,6 +395,10 @@
         vertices.length = 0;
         vertices = locationSelected;
         console.log(vertices);
+        menuPage.style.display = "none";
+        gamePage.style.display = "block";
+        resetButton.style.display = "block";
+        finishButton.style.display = "none";
       }
       else {
         console.log("You've selected an invalid amount of points");
