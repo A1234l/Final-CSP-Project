@@ -1,4 +1,4 @@
-# (Game Log records all data down order from most recent to least recent)
+# Game Log
 <table id="recentGames" style="width: 100%;">
   <tr>
     <th>Username</th>
