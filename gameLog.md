@@ -17,7 +17,7 @@ function updateLeaderboard() {
     console.log('Updating leaderboard...');
 
     // Make the asynchronous GET request to retrieve leaderboard data from the API
-    $.getJSON('http://172.28.82.34:8086/api/leaderboardUser/get')
+    $.getJSON('http://localhost:8086/api/leaderboardUser/getMaxScore')
         .done(function (data) {
             // Clear the current leaderboard on update
             $('#recentGames').empty();
@@ -38,7 +38,7 @@ function updateLeaderboard() {
                 var name = entry.name;
                 var score = entry.score;
                 var date = entry.dateG;
-                var locations = entry.locations.list.join(', ');
+                var locations = Array.isArray(entry.locations) ? entry.locations.join(', ') : '';
                 var totalDistance = entry.tot_distance;
 
                 var row = '<tr>' +
@@ -58,6 +58,5 @@ function updateLeaderboard() {
             console.log('Error:', error);
         });
 }
-
-updateLeaderboard();
+setInterval(updateLeaderboard, 1000);
 </script>
