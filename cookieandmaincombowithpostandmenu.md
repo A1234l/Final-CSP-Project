@@ -181,7 +181,7 @@
         resetButton.style.display = "none";
         finishButton.style.display = "none";
         // Draw the shortest path on the canvas
-        drawShortestPath(heuristic, shortestPath);
+        drawShortestPath(heuristic);
         // Calculates the score
         let intShortestDistance=parseInt(shortestDistanceResult.innerHTML);
         let intUserDistance=parseInt(totalDistanceDisplay.innerHTML);
@@ -250,34 +250,8 @@
       gamePage.style.display = "none";
       endPage.style.display = "block";
     }
-
-        // Define the vertices as an array of objects
-        let vertices = [
-        { id: "A", x: 150, y: 200 },
-        { id: "B", x: 90, y: 200 },
-        { id: "C", x: 95, y: 220 },
-        { id: "D", x: 165, y: 230 },
-        { id: "E", x: 316, y: 225 },
-        { id: "F", x: 100, y: 276 },
-        { id: "G", x: 235, y: 260 },
-        { id: "H", x: 265, y: 270 },
-        { id: "I", x: 360, y: 320 }, 
-        { id: "J", x: 370, y: 340 },
-        // { id: "O", x: 330, y: 360 },
-        // { id: "R", x: 310, y: 390 },
-        // { id: "T", x: 360, y: 385 },
-        // { id: "V", x: 360, y: 460 },
-        // { id: "W", x: 270, y: 480 },
-        // { id: "Z", x: 120, y: 530 },
-        // { id: "MissionTrails", x: 640, y: 50},
-        // { id: "Walmart", x: 500, y: 590},
-        // { id: "Costco", x: 670, y: 190}
-        
-        // Add more vertices here as needed
-        ];
-    function game(){   
-    // Vertex class to represent each HTML element
-    class Vertex {
+        // Vertex class to represent each HTML element
+        class Vertex {
       constructor(id, x, y) {
         this.id = id; // id of the vertex
         this.x = x; // x-coordinate of the vertex
@@ -341,11 +315,104 @@
         return totalDistance;
       }
     }
+        // Define the vertices as an array of objects
+        let vertices = [
+        { id: "A", x: 150, y: 200 },
+        { id: "B", x: 90, y: 200 },
+        { id: "C", x: 95, y: 220 },
+        { id: "D", x: 165, y: 230 },
+        { id: "E", x: 316, y: 225 },
+        { id: "F", x: 100, y: 276 },
+        { id: "G", x: 235, y: 260 },
+        { id: "H", x: 265, y: 270 },
+        { id: "I", x: 360, y: 320 }, 
+        { id: "J", x: 370, y: 340 },
+        // { id: "O", x: 330, y: 360 },
+        // { id: "R", x: 310, y: 390 },
+        // { id: "T", x: 360, y: 385 },
+        // { id: "V", x: 360, y: 460 },
+        // { id: "W", x: 270, y: 480 },
+        // { id: "Z", x: 120, y: 530 },
+        // { id: "MissionTrails", x: 640, y: 50},
+        // { id: "Walmart", x: 500, y: 590},
+        // { id: "Costco", x: 670, y: 190}
+        
+        // Add more vertices here as needed
+        ];
 
-// Function to generate all possible paths that visit all vertices exactly once
- function generatePaths(graph) {
- const paths = [];
- const visited = new Set();
+    // Example usage
+    const heuristic = new Graph();
+
+    // Create the graph
+    const graph = new Graph();
+
+    // Function to draw the shortest path on the canvas
+    function drawShortestPath(graph) {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
+    
+    // Generate all possible paths and find the shortest one
+    const paths = generatePaths(heuristic);
+    let shortestPath = null;
+    let shortestDistance = Infinity;
+    paths.forEach((path) => {
+    const distance = getPathDistance(path);
+    if (distance < shortestDistance) {
+    shortestPath = path;
+    shortestDistance= distance;
+    }
+    });
+
+        // Store the pixel length in a global variable called path_length
+    const path_length = shortestDistance;
+
+    // Log the pixel length to the console
+    console.log("Pixel length of shortest path:", path_length);
+
+    const shortestDistanceResult = document.getElementById("totalDistanceClosest");
+    shortestDistanceResult.textContent = ((path_length*2)/54).toFixed(2);
+    
+    // Draw all vertices as black circles
+    graph.vertices.forEach((vertex) => {
+    ctx.beginPath();
+    ctx.arc(vertex.x, vertex.y, 10, 0, 2 * Math.PI);
+    ctx.fillStyle = "#000000";
+    ctx.fill();
+    ctx.closePath();
+
+    });
+
+    // Draw the path as a red line
+    ctx.beginPath();
+    ctx.strokeStyle = "#FF0000";
+    ctx.lineWidth = 3;
+
+    for (let i = 0; i < shortestPath.length - 1; i++) {
+    const current = shortestPath[i];
+    const next = shortestPath[i+1];
+    ctx.moveTo(current.x, current.y);
+    ctx.lineTo(next.x, next.y);
+    }
+
+    ctx.stroke();
+    ctx.closePath();
+    }
+    
+    // Function to calculate the total distance of heuristic path
+    function getPathDistance(path) {
+    let distance = 0;
+    for (let i = 0; i < path.length - 1; i++) {
+    distance += heuristic.calculateDistance(path[i], path[i+1]);
+    }
+    return distance;
+    }
+
+    // Function to generate all possible paths that visit all vertices exactly once
+    function generatePaths(graph) {
+    const paths = [];
+    const visited = new Set();
  
     function dfs(path) {
     if (path.length === graph.vertices.length) {
@@ -370,6 +437,8 @@
 
     return paths;
     }
+
+    function game(){  
 
     // // Dijkstra's algorithm implementation(not used so it is commented out)
     // function dijkstra(graph, start, end) {
@@ -559,8 +628,7 @@
         // hides finish button if lines are reset
         finishButton.style.display = "none";
         }
-    // Create the graph
-    const graph = new Graph();
+
 
     // Loop through the vertices array and create a new Vertex object for each one
     for (const vertex of vertices) {
@@ -568,54 +636,13 @@
     graph.addVertex(newVertex);
     }
 
-    // Example usage
-    const heuristic = new Graph();
+    
     // Loop through the vertices array and create a new Vertex object for each one
     for (const vertex of vertices) {
         const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
         heuristic.addVertex(newVertex);
     }
-    // Function to calculate the total distance of heuristic path
-    function getPathDistance(path) {
-    let distance = 0;
-    for (let i = 0; i < path.length - 1; i++) {
-    distance += heuristic.calculateDistance(path[i], path[i+1]);
-    }
-    return distance;
-    }
 
-    // Function to draw the shortest path on the canvas
-    function drawShortestPath(graph, path) {
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
-
-    // Draw all vertices as black circles
-    graph.vertices.forEach((vertex) => {
-    ctx.beginPath();
-    ctx.arc(vertex.x, vertex.y, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = "#000000";
-    ctx.fill();
-    ctx.closePath();
-
-    });
-
-    // Draw the path as a red line
-    ctx.beginPath();
-    ctx.strokeStyle = "#FF0000";
-    ctx.lineWidth = 3;
-
-    for (let i = 0; i < path.length - 1; i++) {
-    const current = path[i];
-    const next = path[i+1];
-    ctx.moveTo(current.x, current.y);
-    ctx.lineTo(next.x, next.y);
-    }
-
-    ctx.stroke();
-    ctx.closePath();
-    }
 
     // Define adjacency relationships
     heuristic.vertices.forEach((vertex) => {
@@ -630,26 +657,7 @@
     });
     });
 
-    // Generate all possible paths and find the shortest one
-    const paths = generatePaths(heuristic);
-    let shortestPath = null;
-    let shortestDistance = Infinity;
-    paths.forEach((path) => {
-    const distance = getPathDistance(path);
-    if (distance < shortestDistance) {
-    shortestPath = path;
-    shortestDistance= distance;
-    }
-    });
 
-        // Store the pixel length in a global variable called path_length
-    const path_length = shortestDistance;
-
-    // Log the pixel length to the console
-    console.log("Pixel length of shortest path:", path_length);
-
-    const shortestDistanceResult = document.getElementById("totalDistanceClosest");
-    shortestDistanceResult.textContent = ((path_length*2)/54).toFixed(2);
 
         // Initialize variables
         let selectedVertex = null;
