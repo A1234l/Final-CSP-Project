@@ -319,6 +319,7 @@
     finishButton.style.display = "none";
     finishForm.style.display = "none";
     menuPage.style.display = "none";
+    let locationSelected = [];
     // Function switches screen based on status parameter
     function gameScreen(status){
       if(status === 1){
@@ -330,6 +331,118 @@
         gamePage.style.display = "block";
         resetButton.style.display = "block";
         finishButton.style.display = "none";
+        let locationNames = [];
+        const missionbay = document.getElementById("missionbay");
+        const OceanFrontWalk = document.getElementById("OceanFrontWalk");
+        const belmontpark = document.getElementById("Belmont");
+        const seaworld = document.getElementById("seaworld");
+        const fashionvalley = document.getElementById("fashionvalley");
+        const oceanbeach = document.getElementById("oceanbeach");
+        const bazaar = document.getElementById("bazaar");
+        const whaley = document.getElementById("whaley");
+        const zoo = document.getElementById("zoo");
+        const prado = document.getElementById("prado");
+        const museum = document.getElementById("museum");
+        const midway = document.getElementById("midway");
+        const gaslamp = document.getElementById("gaslamp");
+        const bridge = document.getElementById("bridge");
+        const beach = document.getElementById("beach");
+        const pointloma = document.getElementById("pointloma");
+        const missiontrails = document.getElementById("missiontrails");
+        const walmart = document.getElementById("walmart");
+        const costco = document.getElementById("costco");
+
+        // list of selected locations
+
+        // checks for if checked
+        if (missionbay.checked == true){
+          locationSelected.push({id: "missionbay", x: 150, y: 200 });
+          locationNames.push("Mission Bay");
+        }
+        if (OceanFrontWalk.checked == true){
+          locationSelected.push({ id: "OceanFrontWalk", x: 90, y: 200 });
+          locationNames.push("Ocean Front Walk");
+        }
+        if (belmontpark.checked == true){
+          locationSelected.push({id: "Belmont", x: 95, y: 220 });
+          locationNames.push("Belmont Park");
+        }
+        if (seaworld.checked == true){
+          locationSelected.push({id: "seaworld", x: 165, y: 230 });
+          locationNames.push("Sea World");
+        }
+        if (fashionvalley.checked == true){
+          locationSelected.push({id: "fashionvalley", x: 316, y: 225 });
+          locationNames.push("Fashion Valley");
+        }
+        if (oceanbeach.checked == true){
+          locationSelected.push({id: "oceanbeach", x: 100, y: 276 });
+          locationNames.push("Ocean Beach");
+        }
+        if (bazaar.checked == true){
+          locationSelected.push({id: "bazaar", x: 235, y: 260 });
+          locationNames.push("Bazaar Del Mundo");
+        }
+        if (whaley.checked == true){
+          locationSelected.push({id: "whaley", x: 265, y: 270 });
+          locationNames.push("Whaley House");
+        }
+        if (zoo.checked == true){
+          locationSelected.push({id: "zoo", x: 360, y: 320 });
+          locationNames.push("San Diego Zoo");
+        }
+        if (prado.checked == true){
+          locationSelected.push({id: "prado", x: 370, y: 340 });
+          locationNames.push("El Prado");
+        }
+        if (museum.checked == true){
+          locationSelected.push({id: "museum", x: 330, y: 360 });
+          locationNames.push("Fire House Museum");
+        }
+        if (midway.checked == true){
+          locationSelected.push({id: "midway", x: 310, y: 390 });
+          locationNames.push("USS Midway Museum");
+        }
+        if (gaslamp.checked == true){
+          locationSelected.push({id: "gaslamp", x: 360, y: 385 });
+          locationNames.push("Gaslamp Quarter");
+        }
+        if (beach.checked == true){
+          locationSelected.push({id: "beach", x: 270, y: 480 });
+          locationNames.push("Ocean Beach");
+        }
+        if (pointloma.checked == true){
+          locationSelected.push({id: "pointloma", x: 120, y: 530 });
+          locationNames.push("Point Loma Light House");
+        }
+        if (missiontrails.checked == true){
+          locationSelected.push({id: "MissionTrails", x: 640, y: 50});
+          locationNames.push("Mission Trails");
+        }
+        if (walmart.checked == true){
+          locationSelected.push({id: "Walmart", x: 500, y: 590});
+          locationNames.push("Walmart");
+        }
+        if (costco.checked == true){
+          locationSelected.push({ id: "Costco", x: 670, y: 190});
+          locationNames.push("Costco");
+        }
+        if (locationSelected.length <= 10 && locationSelected.length >= 2){
+          console.log("Success");
+          vertices.length = 0;
+          vertices = locationSelected;
+          console.log(vertices);
+          menuPage.style.display = "none";
+          gamePage.style.display = "block";
+          resetButton.style.display = "block";
+          finishButton.style.display = "none";
+          game();
+        }
+        else {
+          console.log("You've selected an invalid amount of locations");
+          console.log(locationSelected);
+          location.reload();
+        }
       }
       if(status === 2){
         finishForm.style.display = "block";
@@ -674,7 +787,7 @@
         // Add more vertices here as needed
         ];
     // Loop through the vertices array and create a new Vertex object for each one
-    for (const vertex of vertices) {
+    for (const vertex of locationSelected) {
     const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
     graph.addVertex(newVertex);
     }
