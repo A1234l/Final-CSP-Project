@@ -515,7 +515,7 @@
         while (stack.length > 0) {
           const vertex = stack.pop();
           visited.add(vertex);
-
+          console.log(stack);
           // Add all adjacent unvisited vertices to the stack
           for (const adjacentVertex of vertex.adjacent) {
             if (!visited.has(adjacentVertex)) {
