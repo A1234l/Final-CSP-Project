@@ -103,7 +103,7 @@
   </div>
   <div id="menu-selection-page">
     <h2 style="color:white; text-align: center;">Please select 2-10 locations you would like to visit.</h2>
-    <p style="color:white; text-align: center;">Selection of locations is limited to 12 locations.</p>
+    <p style="color:white; text-align: center;">Selection of locations is limited to 10 locations.</p>
     <!-- Use liquid to incorporate menu code for easier access -->
     {% include yuriIndex.html %}
   </div>
