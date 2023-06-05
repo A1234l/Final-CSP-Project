@@ -141,10 +141,6 @@
             <button onclick="alert('Your score has been posted!')" id="form-submit-button">Submit</button>
         </p>
       </form>
-      <!-- Temporary button, remove later -->
-      <div class="button-container">
-        <button id="temporary" onclick="userCreate()" class="gen-button">Next</button>
-      </div>
     </div>
   <div id="game-page">
     <div class="button-container">
