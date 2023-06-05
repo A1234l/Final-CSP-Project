@@ -265,6 +265,8 @@
   <div id="finish-button-container-menu" style="text-align: center;">
   </div>
   <script>
+    let locationNames = [];
+
     function checkSelected(){
       // variables for all the inputs
       const missionbay = document.getElementById("missionbay");
@@ -288,9 +290,7 @@
       const costco = document.getElementById("costco");
 
       // list of selected locations
-      let locationSelected = []
-
-      let locationNames = [];
+      let locationSelected = [];
 
       // checks for if checked
       if (missionbay.checked == true){
@@ -331,7 +331,7 @@
       }
       if (prado.checked == true){
         locationSelected.push({id: "prado", x: 370, y: 340 });
-        locationNames.push("Prado");
+        locationNames.push("El Prado");
       }
       if (museum.checked == true){
         locationSelected.push({id: "museum", x: 330, y: 360 });
@@ -366,7 +366,7 @@
         locationNames.push("Costco");
       }
       if (locationSelected.length <= 10 && locationSelected.length >= 2){
-        console.log("Sucess");
+        console.log("Success");
         vertices.length = 0;
         vertices = locationSelected;
         console.log(vertices);
@@ -377,11 +377,11 @@
         game();
       }
       else {
-        console.log("You've selected an invalid amount of points");
+        console.log("You've selected an invalid amount of locations");
         console.log(locationSelected);
         location.reload();
       }
     }
   </script>
-  <button onclick = "checkSelected()" id ="finish" style = "margin: auto; height: 60px; width: 100%; max-width: 100px;">Submit Points</button>
+  <button onclick = "checkSelected()" id ="finish_B">Submit Locations</button>
 </html>

@@ -102,6 +102,8 @@
     </div>
   </div>
   <div id="menu-selection-page">
+    <h2 style="color:white; text-align: center;">Please select 3-12 locations you would like to visit.</h2>
+    <p style="color:white; text-align: center;">Selection of locations is limited to 12 locations.</p>
     {% include yuriIndex.html %}
   </div>
   <div id="end-page">
@@ -164,6 +166,8 @@
     const totalDistanceDisplay = document.getElementById("totalDistance");
     const scoreDisplay = document.getElementById("scoring");
     const menuPage = document.getElementById("menu-selection-page");
+    const shortestDistanceResult = document.getElementById("totalDistanceClosest");
+    const locationList = document.getElementById("locationList");
     // Initially hides end page and game page and finish button
     endPage.style.display = "none";
     gamePage.style.display = "none";
@@ -197,6 +201,12 @@
             }
             scoreDisplay.textContent = score.toString();
         }
+        locationDisplay = "";
+        for(let i=0; i<(locationNames.length-1); i++){
+          locationDisplay += locationNames[i] + ", ";
+        }
+        locationDisplay += locationNames[locationNames.length-1];
+        locationList.textContent = locationDisplay;
       }
       if(status === 3){
         window.location.reload();
@@ -204,8 +214,8 @@
     }
 
     // prepare URL's to allow easy switch from deployment and localhost
-    //const url = "http://localhost:8086/api/leaderboardUser";
-    const url = "http://localhost:8086/api/leaderboardUser";
+    // const url = "http://localhost:8086/api/leaderboardUser";
+    const url = "https://school.aipad-techs.com/api/leaderboardUser";
     const createGame = url + '/addscore';
 
     // Function creates POST request
@@ -213,11 +223,10 @@
           // Get the data
     const body = {
         name: document.getElementById("username").value,
-        tot_distance: parseInt(document.getElementById("totalDistance").innerHTML),
-        calc_distance: parseInt(document.getElementById("totalDistanceClosest").innerHTML),
-        score: parseInt(document.getElementById("scoring").innerHTML),
-        // fix this
-        locations: document.getElementById("locationList").innerHTML
+        tot_distance: totalDistanceDisplay.innerHTML,
+        calc_distance: shortestDistanceResult.innerHTML,
+        score: scoreDisplay.innerHTML,
+        locations: locationNames
     };
     const requestOptions = {
         method: 'POST',
@@ -316,16 +325,16 @@
     }
         // Define the vertices as an array of objects
         let vertices = [
-        { id: "A", x: 150, y: 200 },
-        { id: "B", x: 90, y: 200 },
-        { id: "C", x: 95, y: 220 },
-        { id: "D", x: 165, y: 230 },
-        { id: "E", x: 316, y: 225 },
-        { id: "F", x: 100, y: 276 },
-        { id: "G", x: 235, y: 260 },
-        { id: "H", x: 265, y: 270 },
-        { id: "I", x: 360, y: 320 }, 
-        { id: "J", x: 370, y: 340 },
+        // { id: "A", x: 150, y: 200 },
+        // { id: "B", x: 90, y: 200 },
+        // { id: "C", x: 95, y: 220 },
+        // { id: "D", x: 165, y: 230 },
+        // { id: "E", x: 316, y: 225 },
+        // { id: "F", x: 100, y: 276 },
+        // { id: "G", x: 235, y: 260 },
+        // { id: "H", x: 265, y: 270 },
+        // { id: "I", x: 360, y: 320 }, 
+        // { id: "J", x: 370, y: 340 },
         // { id: "O", x: 330, y: 360 },
         // { id: "R", x: 310, y: 390 },
         // { id: "T", x: 360, y: 385 },
@@ -370,7 +379,6 @@
     // Log the pixel length to the console
     console.log("Pixel length of shortest path:", path_length);
 
-    const shortestDistanceResult = document.getElementById("totalDistanceClosest");
     shortestDistanceResult.textContent = ((path_length*2)/54).toFixed(2);
     
     // Draw all vertices as black circles
