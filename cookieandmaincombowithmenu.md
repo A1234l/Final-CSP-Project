@@ -776,6 +776,7 @@
         resetButton.addEventListener("click", handleResetButtonClick);
         submitButton.addEventListener("click", handleResetButtonClick);
         temp.addEventListener("click", handleResetButtonClick);
+    gameScreen(1);
     </script>
     </body>
 </html>
