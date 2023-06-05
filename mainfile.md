@@ -558,7 +558,7 @@
                 canvas.addEventListener("mousemove", handleMouseMove);
                 canvas.addEventListener("mouseup", handleMouseUp);
             }
-            }
+      }
     // Function to handle the mouse move event
     function handleMouseMove(e) {
       const canvas = e.target;
