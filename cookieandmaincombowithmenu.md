@@ -194,7 +194,7 @@
         // Calculates the score
         let intShortestDistance=parseInt(shortestDistanceResult.innerHTML);
         let intUserDistance=parseInt(totalDistanceDisplay.innerHTML);
-        let score = (1.0*Math.pow(1000,(-(Math.log(intUserDistance/intShortestDistance)-1)))).toFixed(2);
+        let score = (vertices.length*Math.pow(1000,(-(Math.log(intUserDistance/intShortestDistance)-1)))).toFixed(2);
         // Invalidates score in case distance is less than shortest distance. Displays score if otherwise
         if(intShortestDistance>intUserDistance){
             totalDistanceDisplay.textContent = "**error**";
