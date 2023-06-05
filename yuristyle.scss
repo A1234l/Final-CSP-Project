@@ -127,3 +127,24 @@ input {
 form {
     background-color: transparent;
 }
+
+#finish_B{
+  margin: auto;
+  display: block;
+  width: 200px;
+  padding: 15px 0;
+  text-align: center;
+  background: transparent;
+  border-radius: 25px;
+  border: 2px solid #009614;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.6s;
+  color: white;
+}
+#finish_B:hover{
+  background-color: #009614;
+}
