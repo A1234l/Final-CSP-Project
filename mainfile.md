@@ -104,6 +104,7 @@
   <div id="menu-selection-page">
     <h2 style="color:white; text-align: center;">Please select 2-10 locations you would like to visit.</h2>
     <p style="color:white; text-align: center;">Selection of locations is limited to 12 locations.</p>
+    <!-- Use liquid to incorporate menu code for easier access -->
     {% include yuriIndex.html %}
   </div>
   <div id="end-page">
@@ -158,14 +159,13 @@
     const canvas = document.getElementById("canvas");
     const finishForm = document.getElementById("finish-form");
     const submitButton = document.getElementById("form-submit-button");
-    const temp = document.getElementById("temporary");
     const totalDistanceDisplay = document.getElementById("totalDistance");
     const scoreDisplay = document.getElementById("scoring");
     const menuPage = document.getElementById("menu-selection-page");
     const shortestDistanceResult = document.getElementById("totalDistanceClosest");
     const locationList = document.getElementById("locationList");
 
-    // Set up dummy variables to store in values
+    // Set up dummy variables to store in values for POST
     let dummyTotalD = 0;
     let dummyCalcD = 0;
     let dummyScore = 0;
@@ -203,6 +203,7 @@
             scoreDisplay.textContent = score.toString();
             dummyScore = score;
         }
+        // for loop to display locations on the form
         locationDisplay = "";
         for(let i=0; i<(locationNames.length-1); i++){
           locationDisplay += locationNames[i] + ", ";
@@ -261,8 +262,8 @@
       gamePage.style.display = "none";
       endPage.style.display = "block";
     }
-        // Vertex class to represent each HTML element
-        class Vertex {
+    // Vertex class to represent each HTML element
+    class Vertex {
       constructor(id, x, y) {
         this.id = id; // id of the vertex
         this.x = x; // x-coordinate of the vertex
@@ -326,7 +327,7 @@
         return totalDistance;
       }
     }
-        // Define the vertices as an array of objects
+        // Define the vertices as an array of objects, points are commented out since user picks these points, not us
         let vertices = [
         // { id: "A", x: 150, y: 200 },
         // { id: "B", x: 90, y: 200 },
@@ -351,10 +352,10 @@
         // Add more vertices here as needed
         ];
 
-    // Example usage
+    // Create heuristic graph
     const heuristic = new Graph();
 
-    // Create the graph
+    // Create the user drawing graph
     const graph = new Graph();
 
     // Function to draw the shortest path on the canvas
@@ -376,7 +377,7 @@
     }
     });
 
-        // Store the pixel length in a global variable called path_length
+    // Store the pixel length in a global variable called path_length
     const path_length = shortestDistance;
 
     // Log the pixel length to the console
@@ -506,7 +507,7 @@
     // return path; // return the shortest path
     // }
 
-// Function to draw the graph on the canvas
+    // Function to draw the graph on the canvas
     function drawGraph(graph) {
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
@@ -558,27 +559,27 @@
                 canvas.addEventListener("mouseup", handleMouseUp);
             }
             }
-            // Function to handle the mouse move event
-            function handleMouseMove(e) {
-            const canvas = e.target;
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-            // Update the line end position
-            lineEndX = mouseX;
-            lineEndY = mouseY;
-            // Redraw the canvas
-            drawGraph(graph);
-            // Draw the temporary line from the selected vertex to the mouse position
-            const ctx = canvas.getContext("2d");
-            ctx.beginPath();
-            ctx.strokeStyle = "#FF0000";
-            ctx.lineWidth = 2;
-            ctx.moveTo(lineStartX, lineStartY);
-            ctx.lineTo(lineEndX, lineEndY);
-            ctx.stroke();
-            ctx.closePath();
-            }
+    // Function to handle the mouse move event
+    function handleMouseMove(e) {
+      const canvas = e.target;
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      // Update the line end position
+      lineEndX = mouseX;
+      lineEndY = mouseY;
+      // Redraw the canvas
+      drawGraph(graph);
+      // Draw the temporary line from the selected vertex to the mouse position
+      const ctx = canvas.getContext("2d");
+      ctx.beginPath();
+      ctx.strokeStyle = "#FF0000";
+      ctx.lineWidth = 2;
+      ctx.moveTo(lineStartX, lineStartY);
+      ctx.lineTo(lineEndX, lineEndY);
+      ctx.stroke();
+      ctx.closePath();
+    }
 
     // Function to handle the mouse up event
     function handleMouseUp(e) {
@@ -669,20 +670,19 @@
     });
     });
 
-        // Initialize variables
-        let selectedVertex = null;
-        let lineStartX = null;
-        let lineStartY = null;
-        let lineEndX = null;
-        let lineEndY = null;
-        let allVerticesConnected = graph.checkAllVerticesConnected();
-        // Draw the initial graph
-        drawGraph(graph);
-        // Add event listeners
-        canvas.addEventListener("mousedown", handleMouseDown);
-        resetButton.addEventListener("click", handleResetButtonClick);
-        submitButton.addEventListener("click", handleResetButtonClick);
-        temp.addEventListener("click", handleResetButtonClick);
+    // Initialize variables
+    let selectedVertex = null;
+    let lineStartX = null;
+    let lineStartY = null;
+    let lineEndX = null;
+    let lineEndY = null;
+    let allVerticesConnected = graph.checkAllVerticesConnected();
+    // Draw the user drawing graph
+    drawGraph(graph);
+    // Add event listeners
+    canvas.addEventListener("mousedown", handleMouseDown);
+    resetButton.addEventListener("click", handleResetButtonClick);
+    submitButton.addEventListener("click", handleResetButtonClick);
   };
     </script>
     </body>
