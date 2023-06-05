@@ -433,6 +433,12 @@
           gamePage.style.display = "block";
           resetButton.style.display = "block";
           finishButton.style.display = "none";
+          const graph = new Graph();
+          // Loop through the vertices array and create a new Vertex object for each one
+          for (const vertex of vertices) {
+            const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
+            graph.addVertex(newVertex);
+          }
           drawGraph(graph);
         }
         else {
@@ -758,13 +764,7 @@
         finishButton.style.display = "none";
         }
     // Create the graph
-    const graph = new Graph();
-    // Define the vertices as an array of objects
-    // Loop through the vertices array and create a new Vertex object for each one
-    for (const vertex of vertices) {
-      const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
-      graph.addVertex(newVertex);
-    }
+    
 
     // Example usage
     const heuristic = new Graph();
