@@ -321,7 +321,6 @@
     menuPage.style.display = "none";
     let locationSelected = [];
     let vertices = [];
-    const graph = new Graph();
     // Function switches screen based on status parameter
     function gameScreen(status){
       if(status === 1){
@@ -764,7 +763,7 @@
         finishButton.style.display = "none";
         }
     // Create the graph
-    
+    const graph = new Graph();
 
     // Example usage
     const heuristic = new Graph();
