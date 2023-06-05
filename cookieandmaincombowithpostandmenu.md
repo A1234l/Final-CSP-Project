@@ -102,7 +102,7 @@
     </div>
   </div>
   <div id="menu-selection-page">
-    <h2 style="color:white; text-align: center;">Please select 3-12 locations you would like to visit.</h2>
+    <h2 style="color:white; text-align: center;">Please select 2-10 locations you would like to visit.</h2>
     <p style="color:white; text-align: center;">Selection of locations is limited to 12 locations.</p>
     {% include yuriIndex.html %}
   </div>
@@ -168,6 +168,11 @@
     const menuPage = document.getElementById("menu-selection-page");
     const shortestDistanceResult = document.getElementById("totalDistanceClosest");
     const locationList = document.getElementById("locationList");
+
+    // Set up dummy variables to store in values
+    let dummyTotalD = 0;
+    let dummyCalcD = 0;
+    let dummyScore = 0;
     // Initially hides end page and game page and finish button
     endPage.style.display = "none";
     gamePage.style.display = "none";
@@ -200,6 +205,7 @@
                 score = (score*(1+0.12*(vertices.length-5))).toFixed(2);
             }
             scoreDisplay.textContent = score.toString();
+            dummyScore = score;
         }
         locationDisplay = "";
         for(let i=0; i<(locationNames.length-1); i++){
@@ -223,11 +229,12 @@
           // Get the data
     const body = {
         name: document.getElementById("username").value,
-        tot_distance: totalDistanceDisplay.innerHTML,
-        calc_distance: shortestDistanceResult.innerHTML,
-        score: scoreDisplay.innerHTML,
-        locations: locationNames
+        score: dummyScore,
+        locations: locationNames,
+        tot_distance: dummyTotalD,
+        calc_distance: dummyCalcD
     };
+    console.log(body);
     const requestOptions = {
         method: 'POST',
         body: JSON.stringify(body),
@@ -380,6 +387,7 @@
     console.log("Pixel length of shortest path:", path_length);
 
     shortestDistanceResult.textContent = ((path_length*2)/54).toFixed(2);
+    dummyCalcD = ((path_length*2)/54).toFixed(2);
     
     // Draw all vertices as black circles
     graph.vertices.forEach((vertex) => {
@@ -605,6 +613,7 @@
             // Calculate and update the total distance
             const totalDistance = graph.calculateTotalDistance();
             totalDistanceDisplay.textContent = (totalDistance/54).toFixed(2);
+            dummyTotalD = (totalDistance/54).toFixed(2);
         }
         // Reset the line positions and remove the event listeners
         lineStartX = null;
@@ -639,8 +648,8 @@
 
     // Loop through the vertices array and create a new Vertex object for each one
     for (const vertex of vertices) {
-    const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
-    graph.addVertex(newVertex);
+      const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
+      graph.addVertex(newVertex);
     }
 
     
