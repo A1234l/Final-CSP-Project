@@ -321,6 +321,7 @@
     menuPage.style.display = "none";
     let locationSelected = [];
     let vertices = [];
+    const graph = new Graph();
     // Function switches screen based on status parameter
     function gameScreen(status){
       if(status === 1){
@@ -433,7 +434,6 @@
           gamePage.style.display = "block";
           resetButton.style.display = "block";
           finishButton.style.display = "none";
-          const graph = new Graph();
           // Loop through the vertices array and create a new Vertex object for each one
           for (const vertex of vertices) {
             const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
@@ -849,20 +849,20 @@
     const shortestDistanceResult = document.getElementById("totalDistanceClosest");
     shortestDistanceResult.textContent = ((path_length*2)/54).toFixed(2);
 
-        // Initialize variables
-        let selectedVertex = null;
-        let lineStartX = null;
-        let lineStartY = null;
-        let lineEndX = null;
-        let lineEndY = null;
-        let allVerticesConnected = graph.checkAllVerticesConnected();
-        // Draw the initial graph
-        drawGraph(graph);
-        // Add event listeners
-        canvas.addEventListener("mousedown", handleMouseDown);
-        resetButton.addEventListener("click", handleResetButtonClick);
-        submitButton.addEventListener("click", handleResetButtonClick);
-        temp.addEventListener("click", handleResetButtonClick);
+    // Initialize variables
+    let selectedVertex = null;
+    let lineStartX = null;
+    let lineStartY = null;
+    let lineEndX = null;
+    let lineEndY = null;
+    let allVerticesConnected = graph.checkAllVerticesConnected();
+    // Draw the initial graph
+    drawGraph(graph);
+    // Add event listeners
+    canvas.addEventListener("mousedown", handleMouseDown);
+    resetButton.addEventListener("click", handleResetButtonClick);
+    submitButton.addEventListener("click", handleResetButtonClick);
+    temp.addEventListener("click", handleResetButtonClick);
     </script>
     </body>
 </html>
