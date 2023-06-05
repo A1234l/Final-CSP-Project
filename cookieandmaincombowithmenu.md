@@ -433,6 +433,7 @@
           gamePage.style.display = "block";
           resetButton.style.display = "block";
           finishButton.style.display = "none";
+          drawGraph(graph);
         }
         else {
           console.log("You've selected an invalid amount of locations");
