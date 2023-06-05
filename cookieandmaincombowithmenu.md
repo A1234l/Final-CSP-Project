@@ -170,8 +170,8 @@
     const locationList = document.getElementById("locationList");
 
     // Set up dummy variables to store in values
-    let dummyTotalD = 0;
-    let dummyCalcD = 0;
+    let tempTotalD = 0;
+    let tenoCalcD = 0;
     let dummyScore = 0;
     // Initially hides end page and game page and finish button
     endPage.style.display = "none";
@@ -194,7 +194,7 @@
         // Calculates the score
         let intShortestDistance=parseInt(shortestDistanceResult.innerHTML);
         let intUserDistance=parseInt(totalDistanceDisplay.innerHTML);
-        let score = (Math.pow(2,vertices.length)*Math.pow(1000,(-(Math.log(intUserDistance/intShortestDistance)-1)))).toFixed(2);
+        let score = (Math.pow(2,vertices.length)*1000*Math.pow(Math.E,(2*(Math.log(intUserDistance/intShortestDistance))))).toFixed(2);
         // Invalidates score in case distance is less than shortest distance. Displays score if otherwise
         if(intShortestDistance>intUserDistance){
             totalDistanceDisplay.textContent = "**error**";
