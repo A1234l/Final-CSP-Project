@@ -221,7 +221,7 @@
 
     // prepare URL's to allow easy switch from deployment and localhost
     // const url = "http://localhost:8086/api/leaderboardUser";
-    const url = "https://school.aipad-techs.com/api/leaderboardUser";
+    const url = "https://school.aipad-techs.com/api/leaderboardUser/api/leaderboardUser";
     const createGame = url + '/addscore';
 
     // Function creates POST request
@@ -229,10 +229,10 @@
           // Get the data
     const body = {
         name: document.getElementById("username").value,
-        score: dummyScore,
+        score: Math.round(dummyScore),
         locations: locationNames,
-        tot_distance: dummyTotalD,
-        calc_distance: dummyCalcD
+        tot_distance: Math.round(dummyTotalD),
+        calc_distance: Math.round(dummyCalcD)
     };
     console.log(body);
     const requestOptions = {
