@@ -327,10 +327,6 @@
         menuPage.style.display = "block";
       }
       if(status === 4){
-        menuPage.style.display = "none";
-        gamePage.style.display = "block";
-        resetButton.style.display = "block";
-        finishButton.style.display = "none";
         let locationNames = [];
         const missionbay = document.getElementById("missionbay");
         const OceanFrontWalk = document.getElementById("OceanFrontWalk");
@@ -436,7 +432,6 @@
           gamePage.style.display = "block";
           resetButton.style.display = "block";
           finishButton.style.display = "none";
-          game();
         }
         else {
           console.log("You've selected an invalid amount of locations");
@@ -763,31 +758,9 @@
     // Create the graph
     const graph = new Graph();
     // Define the vertices as an array of objects
-    let vertices = [
-        { id: "A", x: 150, y: 200 },
-        { id: "B", x: 90, y: 200 },
-        { id: "C", x: 95, y: 220 },
-        { id: "D", x: 165, y: 230 },
-        { id: "E", x: 316, y: 225 },
-        { id: "F", x: 100, y: 276 },
-        { id: "G", x: 235, y: 260 },
-        { id: "H", x: 265, y: 270 },
-        { id: "I", x: 360, y: 320 }, 
-        { id: "J", x: 370, y: 340 },
-        // { id: "O", x: 330, y: 360 },
-        // { id: "R", x: 310, y: 390 },
-        // { id: "T", x: 360, y: 385 },
-        // { id: "V", x: 360, y: 460 },
-        // { id: "W", x: 270, y: 480 },
-        // { id: "Z", x: 120, y: 530 },
-        // { id: "MissionTrails", x: 640, y: 50},
-        // { id: "Walmart", x: 500, y: 590},
-        // { id: "Costco", x: 670, y: 190}
-        
-        // Add more vertices here as needed
-        ];
+    let vertices = [];
     // Loop through the vertices array and create a new Vertex object for each one
-    for (const vertex of locationSelected) {
+    for (const vertex of vertices) {
     const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
     graph.addVertex(newVertex);
     }
@@ -889,7 +862,6 @@
         resetButton.addEventListener("click", handleResetButtonClick);
         submitButton.addEventListener("click", handleResetButtonClick);
         temp.addEventListener("click", handleResetButtonClick);
-    gameScreen(1);
     </script>
     </body>
 </html>
