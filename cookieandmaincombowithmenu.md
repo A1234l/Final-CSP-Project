@@ -320,6 +320,7 @@
     finishForm.style.display = "none";
     menuPage.style.display = "none";
     let locationSelected = [];
+    let vertices = [];
     // Function switches screen based on status parameter
     function gameScreen(status){
       if(status === 1){
@@ -758,11 +759,10 @@
     // Create the graph
     const graph = new Graph();
     // Define the vertices as an array of objects
-    let vertices = [];
     // Loop through the vertices array and create a new Vertex object for each one
     for (const vertex of vertices) {
-    const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
-    graph.addVertex(newVertex);
+      const newVertex = new Vertex(vertex.id, vertex.x, vertex.y);
+      graph.addVertex(newVertex);
     }
 
     // Example usage
