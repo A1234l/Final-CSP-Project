@@ -18,7 +18,8 @@
                         <input type="password" required>
                         <label for="">Password</label>
                     </div>
-                    <button onclick="goBack()">Sign Up</button>
+                    <button>Sign Up</button>
+                    <button onclick="goBack()">Go Back</button>
                 </form>
             </div>
         </div>
