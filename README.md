@@ -18,6 +18,8 @@ The user then could submit their score to the leaderboard and compare themselves
 
 **How does this work (on a technical scale):**
 
-The site is built on github pages and uses html, markdown, javascript, and SASS as a way to make the page interactive. The site utilizes a backend server storing multiple apis that are used and called on by the website.
+The site is built on github pages and uses html, markdown, javascript, python and SASS as a way to make the page interactive. The site utilizes a backend server storing multiple apis that are used and called on by the website.
+
+Some of the apis used in this site include the API for the leaderboard and the API for the login page.
 
 **Backend Access Here:** https://github.com/Tirth-Thakkar/SD-Planner
