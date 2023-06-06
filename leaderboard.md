@@ -24,7 +24,7 @@ function updateLeaderboard() {
     console.log('Updating leaderboard...');
 
     // Make the asynchronous GET request to retrieve leaderboard data from the API
-    $.getJSON('https://school.aipad-techs.com/api/leaderboardUser/getMaxScore')
+    $.getJSON('http://localhost:8086/api/leaderboardUser/getMaxScore')
         .done(function (data) {
             // Clear the current leaderboard on update
             $('#recentGames').empty();

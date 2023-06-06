@@ -218,7 +218,7 @@
 
     // prepare URL's to allow easy switch from deployment and localhost
     // const url = "http://localhost:8086/api/leaderboardUser";
-    const url = "https://school.aipad-techs.com/api/leaderboardUser/api/leaderboardUser";
+    const url = "http://localhost:8086/api/leaderboardUser";
     const createGame = url + '/addscore';
 
     // Function creates POST request
