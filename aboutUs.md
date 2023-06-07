@@ -21,7 +21,7 @@
     <h3>Jishnu Singiresu - Project Manager</h3>
     <p>Jishnu is in charge of managing the project as a whole. He specializes in styling and backend work, and has created a wonderful format for this page.</p>
     <br>
-    <h3>Yuri Subramanium - DevOps Lead</h3>
+    <h3>Yuri Subramaniam - DevOps Lead</h3>
     <p>Yuri is in charge of deployment to allow the frontend to fetch data from the backend. He mainly helped with deployment and fixing issues involved with it. He also helped with the frontend by adding the menu functionality.</p>
     <br>
     <h3>Haoxuan Tong - Frontend and Backend Developer</h3>
